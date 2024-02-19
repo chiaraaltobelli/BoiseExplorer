@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" type="image/png" href="/images/adventures.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Boise Explorer</title>
@@ -29,6 +30,31 @@
             </a>
          </div>
     </header>
+    <div class="content">
+    <div class="generate-container">
+        <h1>Generate Itinerary</h1>
+        <div class="dropdown-container">
+            <label for="activity">Select:</label>
+            <select name="activity" id="activity">
+                <option value="single">Single Activity</option>
+                <option value="fullday">Full Day Itinerary</option>
+            </select>
+        </div>
+    </div>
+    <div class="content">
+        <div class="centered-content">
+            <h2>Explore Boise</h2>
+            <h3>Morning</h3>
+            <h3>Afternoon</h3>
+            <h3>Evening</h3>
+        </div>
+    </div>
+</div>
+    <script>
+    document.getElementById('activity').addEventListener('change', function() {
+        alert('You selected: ' + this.value); // Update later
+    });
+    </script>
     <footer class="site-footer">
       <div class="footer-left">
           <img src="images/adventures.png" alt="Boise Explorer Logo" class="footer-icon">
