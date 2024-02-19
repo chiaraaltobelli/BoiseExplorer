@@ -1,25 +1,21 @@
 html, body {
-  height: 100%;
   margin: 0;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  padding: 0;
 }
 
 .page-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
 }
 
+/*Header Styles*/
 .site-header {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 15px;
+  padding: 0.5% 2%;
   border-bottom: 1px solid #b6b5b5;
 }
 
@@ -32,18 +28,12 @@ body {
 }
 
 .branding-icon {
-  display: block;
-  align-items: left;
-  margin: 15px auto 0;
+  margin: 5% auto 0;
   width: 50px; 
   height: auto;
 }
 
-.navbar {
-  display: flex;
-  justify-content: flex-start;
-}
-
+/*Navigation Link Styles*/
 .nav-links {
   list-style: none;
   display: flex;
@@ -57,9 +47,8 @@ body {
 }
 
 .nav-links li a {
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 1.25rem;
   color: #000000;
   text-decoration: none;
   transition: color 0.3s ease-in-out;
@@ -76,12 +65,7 @@ body {
   color: #31A7A8;
 }
 
-.signin-link {
-  align-items: center;
-  text-decoration: none;
-  color: inherit;
-}
-
+/*Sign In Page Styles*/
 .sign-in-btn {
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 500;
@@ -93,52 +77,52 @@ body {
 
 .signin-icon {
   display: block;
-  align-items: right;
   margin: 10px auto 0;
   width: 40px; 
   height: auto;
 }
 
+/*Page Content Styles*/
 .content {
   box-sizing: border-box;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 16px;
-  /* height: 100%; */
-  padding: 20px;
-  margin: 0 150px;
+  padding: 1% 2%;
+  margin: 1% 5%;
   flex-grow: 1; 
   overflow-y: auto; 
 }
 
 .content p {
-  margin-bottom: 10px;
+  margin-bottom: 1%;
 }
 
-.content h1{
-  margin: 35px 0;
+.site-header h1{
+  margin: 0;
 }
 
 .content ul{
   margin-top: 0px;
 }
 
-.centered-content {
+.content-center {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
+/*Footer Styles*/
 .site-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  width: 100%;
   box-sizing: border-box;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 0.75em;
   color: #000000;
   border-top: 1px solid #b6b5b5;
-  padding: 10px 15px;
+  padding: 0.5% 1%;
 }
 
 .footer-left, .footer-right {
@@ -152,9 +136,7 @@ body {
 }
 
 .footer-icon {
-  margin-right: 10px;
-  margin-bottom: 10px;
-  width: 50px;
+  width: 50px; 
   height: auto;
 }
 
@@ -162,42 +144,32 @@ body {
   margin: 0;
 }
 
-.site-header, .site-footer {
-  flex-shrink: 0;
-}
-  
+/*Typography*/
 h1 {
-  color: #000000;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 35px;
+  font-size: 2.2rem;
   font-weight: 700;
-  line-height: 10px;
-  margin: 0px;
+  line-height: 1;
 }
 
 h2 {
-  color: #000000;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 25px;
+  font-size: 1.7rem;
   font-weight: 700;
-  line-height: 10px;
-  margin: 30px 0;
+  line-height: 1;
 }
 
 h3 {
-  color: #000000;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 20px;
+  font-size: 1.2rem;
   font-weight: 500;
   line-height: 10px;
-  margin: 30px 0;
+  /* margin: 30px 0; */
 }
 
+/*Dropdown Container Styles (Generate page)*/
 .generate-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  width: 100%;
+  /* align-items: center; */
+  /* width: 100%; */
 }
 
 .dropdown-container {
@@ -206,12 +178,14 @@ h3 {
 }
 
 .dropdown-container label {
-  margin-right: 10px;
+  margin-right: 5%;
 }
 
+/*Check this on smartphone*/
 @media (max-width: 768px) {
-  .header-container {
-      flex-wrap: nowrap;
+  .site-header {
+      /* flex-wrap: nowrap; */
+      flex-direction: column;
   }
 }
 
@@ -227,6 +201,7 @@ option {
   padding: 10px;
 }
 
+/*Form Styles (Email input)*/
 form {
   margin-top: 20px;
 }
@@ -238,6 +213,7 @@ input[type="email"] {
   border-radius: 5px;
 }
 
+/*Button Styles*/
 button {
   padding: 10px 20px;
   background-color: #31A7A8;
