@@ -129,6 +129,7 @@ html, body {
   align-items: flex-start;
 }
 
+/*Consider taking out later if nothing is added*/
 .footer-right {
   align-items: flex-end;
 }
