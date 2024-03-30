@@ -62,12 +62,13 @@ html, body {
 }
 
 .nav-links li a.active {
-  color: #31A7A8;
+  color: #3a7bd5;
 }
 
 /*Sign In Page Styles*/
-.sign-in-btn {
-  color: inherit;
+#showLoginBtn {
+  background-color: white;
+  color: #000000;
   text-decoration: none;
   text-align: center;
 }
@@ -77,6 +78,11 @@ html, body {
   margin: 10px auto 0;
   width: 40px; 
   height: auto;
+}
+
+.sign-in-btn {
+  text-decoration: none;
+  color: #000000;
 }
 
 /*Page Content Styles*/
@@ -207,16 +213,16 @@ input[type="email"] {
 /*Button Styles*/
 button {
   padding: 10px 20px;
-  background-color: #31A7A8;
+  background-color: #3a7bd5;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
-
+/* 
 button:hover {
-  background-color: #31A7A8;
-}
+  background-color: #3a7bd5;
+} */
 
 /*Small Screen Styling*/
 @media (max-width: 768px) {

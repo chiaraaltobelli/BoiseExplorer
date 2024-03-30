@@ -7,7 +7,6 @@
           <input type="email" name="email" placeholder="Enter your email address" required>
           <button type="submit">Subscribe</button>
       </form>
-      <p>Additional content for this page TBD.</p>
   </div>
   <?php require_once "footer.php"; ?>
 
