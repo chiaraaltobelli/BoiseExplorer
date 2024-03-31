@@ -25,3 +25,31 @@ if (isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true) {
 
 <!-- JavaScript to handle opening the login popup -->
 <script src="login.js"></script>
+
+<!-- PHP to handle incorrect credentials -->
+<?php if(isset($_GET['login_error']) && $_GET['login_error'] === 'incorrect_credentials'): ?>
+<script>
+    //Javascript to open the popup
+    document.addEventListener("DOMContentLoaded", function() {
+        var showLoginPopup = document.getElementById("showLogin");
+        if (showLoginPopup) {
+            showLoginPopup.classList.add("active");
+        }
+        //Allow user to close box and opt out of login
+        var closeBtn = document.querySelector("#showLogin .close-btn");
+        if (closeBtn) {
+            closeBtn.addEventListener("click", function() {
+                showLoginPopup.classList.remove("active");
+                removeIncorrectLoginQueryString();
+            });
+        }
+    });
+    //Get rid of incorrect credentials query string if 'x' is clicked
+    function removeIncorrectLoginQueryString() {
+        if (window.location.search.indexOf('login_error=incorrect_credentials') !== -1) {
+            var newUrl = window.location.href.replace('?login_error=incorrect_credentials', '');
+            history.replaceState({}, document.title, newUrl);
+        }
+    }
+</script>
+<?php endif; ?>

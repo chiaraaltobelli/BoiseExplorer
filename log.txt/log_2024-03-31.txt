@@ -1,0 +1,9 @@
+[2024-03-31 0:43:56.364413] [error] Error saving activity: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'CityName' in 'where clause'
+[2024-03-31 0:45:58.825711] [error] Error saving activity: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'AddressLine1' in 'field list'
+[2024-03-31 0:46:49.956270] [error] Error saving activity: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`boiseexplorer`.`address`, CONSTRAINT `fk_Address_Country` FOREIGN KEY (`CountryID`) REFERENCES `country` (`CountryID`))
+[2024-03-31 0:56:32.939341] [error] Error saving activity: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'SeasonName' in 'where clause'
+[2024-03-31 0:57:17.041237] [error] Error saving activity: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'boiseexplorer.activities' doesn't exist
+[2024-03-31 0:57:56.865685] [error] Error saving activity: SQLSTATE[HY000]: General error: 1366 Incorrect integer value: 'false' for column 'Morning' at row 1
+[2024-03-31 0:59:15.432406] [error] Error saving activity: SQLSTATE[HY000]: General error: 1366 Incorrect integer value: 'false' for column 'Morning' at row 1
+[2024-03-31 1:00:14.017744] [error] Error saving activity: SQLSTATE[HY000]: General error: 1366 Incorrect integer value: 'false' for column 'Morning' at row 1
+[2024-03-31 1:01:37.261106] [error] Error saving activity: SQLSTATE[HY000]: General error: 1366 Incorrect integer value: 'true' for column 'Morning' at row 1

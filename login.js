@@ -1,11 +1,18 @@
-document.getElementById("showLoginBtn").addEventListener("click", function() {
-    console.log("Show login button clicked");
-    document.getElementById("showLogin").classList.add("active");
-    
-    document.querySelector("#showLogin .close-btn").addEventListener("click", function() {
-        console.log("Close button clicked");
-        document.getElementById("showLogin").classList.remove("active");
-    });
+document.addEventListener("DOMContentLoaded", function() {
+    var showLoginBtn = document.getElementById("showLoginBtn");
+    if (showLoginBtn) {
+        showLoginBtn.addEventListener("click", function() {
+            var showLoginPopup = document.getElementById("showLogin");
+            if (showLoginPopup) {
+                showLoginPopup.classList.add("active");
+                
+                var closeBtn = showLoginPopup.querySelector(".close-btn");
+                if (closeBtn) {
+                    closeBtn.addEventListener("click", function() {
+                        showLoginPopup.classList.remove("active");
+                    });
+                }
+            }
+        });
+    }
 });
-    
-    

@@ -10,7 +10,7 @@
         <?php endif; ?>
 
         <!-- Include the addactivity popup -->
-        <?php require_once "add_activity.html"; ?>
+        <?php require_once "add_activity.php"; ?>
 
         <!-- Categories -->
         <div class="content-center">

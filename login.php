@@ -1,5 +1,5 @@
 
-        <!-- Popup -->
+        <!-- Login Popup -->
         <div id="showLogin" class="popup">
             <div class="close-btn">&times;</div>
             <div class="form">
@@ -21,9 +21,14 @@
                 <div class="form-element">
                     <button type="submit">Login</button>
                 </div>
-                <div class="form-element">
-                    <a href="#">Forgot password?</a>
+                <div class="form-element" id="create">
+                    <a href="create_account.php">Create Account</a>
+                </div>
+                <div class="form-element" id="forgot">
+                    <a href="#" id="forgot">Forgot password?</a>
                 </div>
                 </form>
         </div>
     </div>
+
+
