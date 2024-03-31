@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../includes/Dao.php';
+// require_once '../includes/Dao.php';
 
 // Retrieve form data
 $activityName = $_POST['activityName'];
@@ -57,8 +57,8 @@ if (!empty($messages)) {
 }
 
 // If validation passes, proceed with saving the activity
-$dao = new Dao();
-$success = $dao->saveActivity($activityName, $activityType, $morning, $afternoon, $evening, $season, $address, $city, $state, $zip);
+// $dao = new Dao();
+// $success = $dao->saveActivity($activityName, $activityType, $morning, $afternoon, $evening, $season, $address, $city, $state, $zip);
 
 // Set success or error message
 if ($success) {

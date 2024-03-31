@@ -24,14 +24,14 @@
 
                 <!-- <select id="activityType" name="activityType" required>
                 <?php
-                    require_once __DIR__ . '/../includes/Dao.php';
-                    $dao = new Dao();
-                    $activityTypes = $dao->getActivityTypes();
+                    // require_once __DIR__ . '/../includes/Dao.php';
+                    // $dao = new Dao();
+                    // $activityTypes = $dao->getActivityTypes();
             
-                    foreach($activityTypes as $type) {
-                        echo "<option value='{$type['ActivityType']}'>{$type['ActivityType']}</option>";
-                    }
-                    ?>
+                    // foreach($activityTypes as $type) {
+                        // echo "<option value='{$type['ActivityType']}'>{$type['ActivityType']}</option>";
+                    // }
+                    // ?>
                 </select> -->
             </div>
             <!-- Time of Day -->

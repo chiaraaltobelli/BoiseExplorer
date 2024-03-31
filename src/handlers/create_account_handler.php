@@ -41,46 +41,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors['confirmPassword'] = "Passwords must match.";
     } 
 
-// Check if the form was submitted via POST
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize and validate input
-    // Validation logic here...
+// // Check if the form was submitted via POST
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//     // Sanitize and validate input
+//     // Validation logic here...
 
-    // Check if there are any validation errors
-    if (empty($errors)) {
-        // No validation errors, proceed with database insertion
+//     // Check if there are any validation errors
+//     if (empty($errors)) {
+//         // No validation errors, proceed with database insertion
 
-        // Hash the password
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+//         // Hash the password
+//         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        try {
-            // Establish a connection to the database
-            $pdo = new PDO("mysql:host=localhost;dbname=your_database", "username", "password");
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Set error mode to exception
+//         try {
+//             // Establish a connection to the database
+//             $pdo = new PDO("mysql:host=localhost;dbname=your_database", "username", "password");
+//             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Set error mode to exception
 
-            // Prepare and execute the SQL statement for insertion
-            $stmt = $pdo->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
-            $stmt->execute([$email, $hashedPassword]);
+//             // Prepare and execute the SQL statement for insertion
+//             $stmt = $pdo->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
+//             $stmt->execute([$email, $hashedPassword]);
 
-            // Redirect the user to the login page after successful registration
-            header("Location: ../public/login.php");
-            exit();
-        } catch (PDOException $e) {
-            // Handle database errors
-            echo "Error: " . $e->getMessage();
-            exit(); // Stop further execution
-        }
-    } else {
-        // Validation errors occurred, redirect back to the registration page with error messages
-        $_SESSION['errors'] = $errors;
-        header("Location: ../public/registration.php");
-        exit();
-    }
-} else {
-    // Redirect to an error page or home page if accessed directly without submitting the form
-    header("Location: ../public/index.php");
-    exit();
-}
+//             // Redirect the user to the login page after successful registration
+//             header("Location: ../public/login.php");
+//             exit();
+//         } catch (PDOException $e) {
+//             // Handle database errors
+//             echo "Error: " . $e->getMessage();
+//             exit(); // Stop further execution
+//         }
+//     } else {
+//         // Validation errors occurred, redirect back to the registration page with error messages
+//         $_SESSION['errors'] = $errors;
+//         header("Location: ../public/registration.php");
+//         exit();
+//     }
+// } else {
+//     // Redirect to an error page or home page if accessed directly without submitting the form
+//     header("Location: ../public/index.php");
+//     exit();
+// }
 
 }
 ?>
