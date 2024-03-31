@@ -9,6 +9,6 @@
     <link rel="stylesheet" href="../css/popup.css">
 </head>
 <body id="createAccount">
-    <?php include "create_account_content.php"; ?>
+    <?php require_once "create_account_content.php"; ?>
 </body>
 </html>

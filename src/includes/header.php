@@ -37,11 +37,11 @@
         </nav>
 
          <!-- Include the login status checker -->
-         <?php require_once "../public/login_logout_buttons.php"; ?>
+         <?php require_once __DIR__ . '/../public/login_logout_buttons.php'; ?>
 
          <!-- Include the login popup -->
-         <?php require_once "../public/login.php"; ?>
-
+         <?php require_once __DIR__ . '/../public/login.php'; ?>
+         
    </header>
 </body>
 </html>
