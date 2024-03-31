@@ -1,1 +1,1 @@
-web: php src/public/index.php
+web: php boiseexplorer/src/public/index.php
