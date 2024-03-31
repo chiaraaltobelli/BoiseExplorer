@@ -1,4 +1,4 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT'].'/boiseexplorer/src/includes/header.php'; ?>
+<?php require_once __DIR__ . '/../includes/header.php'; ?>
 <body class="page-container">
     <div class="content">
       <h1>Welcome to the Boise Explorer!</h1>
