@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!-- Icon credits: Signpost icons created by surang - Flaticon, Login icons created by Sebastian Belalcazar - Flaticon -->
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +13,6 @@
     <link rel="stylesheet" href="../css/popup.css">
 </head>
 <body>
-    <?php session_start(); ?>
     <!-- Header -->
     <header class="site-header">
         <div>
