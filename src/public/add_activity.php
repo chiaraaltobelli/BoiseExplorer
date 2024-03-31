@@ -12,7 +12,17 @@
             <!-- Activity Type -->
             <div class="form-element">
                 <label for="activityType">Activity Type<span class="required">*</span></label>
+
+                <!-- Without database -->
                 <select id="activityType" name="activityType" required>
+                    <option value="Dining">Dining</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Arts & Culture">Arts & Culture</option>
+                    <option value="Outdoor Recreation">Outdoor Recreation</option>
+                    <option value="Shopping">Shopping</option>
+                </select>
+
+                <!-- <select id="activityType" name="activityType" required>
                 <?php
                     require_once __DIR__ . '/../includes/Dao.php';
                     $dao = new Dao();
@@ -22,7 +32,7 @@
                         echo "<option value='{$type['ActivityType']}'>{$type['ActivityType']}</option>";
                     }
                     ?>
-                </select>
+                </select> -->
             </div>
             <!-- Time of Day -->
             <div class="form-element">
