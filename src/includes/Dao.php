@@ -10,10 +10,10 @@ use Katzgrau\KLogger\Logger; // Ensure correct namespace import
 use Psr\Log\LogLevel; // Import LogLevel from Psr\Log namespace
 
 class Dao {
-    private $host = "localhost";
-    private $db = "boiseexplorer";
-    private $user = "caltobelli";
-    private $pass = "Ronin465$";
+    private $host = "us-cluster-east-01.k8s.cleardb.net";
+    private $db = "heroku_19905b6cee32fd5";
+    private $user = "bd27d135b8e3a9";
+    private $pass = "d7142ae8";
     private $logger; // Add logger property
 
     public function __construct() {
