@@ -19,7 +19,7 @@
             <!-- Branding -->
             <a href="index.php" class="header-link">
                 <h1>Boise Explorer</h1>
-                <img src="../images/adventures.png" alt="Boise Explorer Logo" class="branding-icon">
+                <img src="../../images/adventures.png" alt="Boise Explorer Logo" class="branding-icon">
             </a>
         </div>
         

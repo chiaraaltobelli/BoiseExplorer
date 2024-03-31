@@ -1,0 +1,6 @@
+[2024-03-31 17:12:50.914865] [error] getActivityTypes reached
+[2024-03-31 17:12:50.918504] [error] Connection success.
+[2024-03-31 17:35:23.816643] [error] getActivityTypes reached
+[2024-03-31 17:35:23.818903] [error] Connection success.
+[2024-03-31 17:35:37.504884] [error] getActivityTypes reached
+[2024-03-31 17:35:37.506819] [error] Connection success.
