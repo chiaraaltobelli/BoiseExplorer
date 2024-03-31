@@ -1,4 +1,4 @@
-<?php require_once "../includes/header.php";?>
+<?php require_once __DIR__ . '/../includes/header.php';?>
 <body class="page-container">
     <div class="content">
     <div class="generate-container">
@@ -25,4 +25,4 @@
         alert('You selected: ' + this.value); // Update later
     });
     </script>
-<?php require_once "../includes/footer.php";?>
+<?php require_once __DIR__ . '/../includes/footer.php';?>
