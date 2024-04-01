@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '/../includes/header.php'; ?>
+<?php require_once __DIR__ . '/header.php'; ?>
 <body class="page-container">
     <div class="content">
       <h1>Welcome to the Boise Explorer!</h1>
@@ -8,5 +8,4 @@
           <button type="submit">Subscribe</button>
       </form>
   </div>
-  <?php require_once __DIR__ . '/../includes/footer.php'; ?>
-
+  <?php require_once __DIR__ . '/footer.php'; ?>
