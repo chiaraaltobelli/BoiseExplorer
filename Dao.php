@@ -61,7 +61,7 @@ class Dao {
             $activityTypeId = $this->getActivityTypeId($conn, $activityType);
             $userId = $this->getUserID($conn, $userEmail);
 
-            $saveQuery = "INSERT INTO activity (ActivityName, Morning, Afternoon, Evening, SeasonID, ActivityTypeID, UserID, AddressID) 
+            $saveQuery = "INSERT INTO Activity (ActivityName, Morning, Afternoon, Evening, SeasonID, ActivityTypeID, UserID, AddressID) 
                           VALUES (:activityName, :morning, :afternoon, :evening, :seasonId, :activityTypeId, :userId, :addressId)";
             $stmt = $conn->prepare($saveQuery);
             $stmt->bindParam(':activityName', $activityName);
@@ -82,7 +82,7 @@ class Dao {
     }
 
     private function getUserID($conn, $userEmail) {
-        $stmt = $conn->prepare("SELECT UserID FROM userAccount WHERE UserEmail = ?");
+        $stmt = $conn->prepare("SELECT UserID FROM UserAccount WHERE UserEmail = ?");
         $stmt->bindParam(1, $userEmail); // Bind user email parameter
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -90,12 +90,12 @@ class Dao {
     }
 
     private function getOrCreateCityId($conn, $city) {
-        $stmt = $conn->prepare("SELECT CityID FROM city WHERE City = ?");
+        $stmt = $conn->prepare("SELECT CityID FROM City WHERE City = ?");
         $stmt->bindParam(1, $city); // Bind city parameter
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$row) {
-            $stmt = $conn->prepare("INSERT INTO city (City) VALUES (?)");
+            $stmt = $conn->prepare("INSERT INTO City (City) VALUES (?)");
             $stmt->bindParam(1, $city); // Bind city parameter
             $stmt->execute();
             return $conn->lastInsertId();
@@ -118,12 +118,12 @@ class Dao {
     }
     
     private function getOrCreateZipId($conn, $zip) {
-        $stmt = $conn->prepare("SELECT ZipCodeID FROM zipcode WHERE ZipCode = ?");
+        $stmt = $conn->prepare("SELECT ZipCodeID FROM ZipCode WHERE ZipCode = ?");
         $stmt->bindParam(1, $zip); // Bind zip parameter
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$row) {
-            $stmt = $conn->prepare("INSERT INTO zipcode (ZipCode) VALUES (?)");
+            $stmt = $conn->prepare("INSERT INTO ZipCode (ZipCode) VALUES (?)");
             $stmt->bindParam(1, $zip); // Bind zip parameter
             $stmt->execute();
             return $conn->lastInsertId();
@@ -149,7 +149,7 @@ class Dao {
     }
 
     private function getSeasonId($conn, $season) {
-        $stmt = $conn->prepare("SELECT SeasonID FROM season WHERE Season = ?");
+        $stmt = $conn->prepare("SELECT SeasonID FROM Season WHERE Season = ?");
         $stmt->execute([$season]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$row) {
@@ -209,7 +209,7 @@ class Dao {
             $this->checkConnection($conn);
             
             // Prepare SQL statement to insert user into the database
-            $stmt = $conn->prepare("INSERT INTO userAccount (UserEmail, UserPassword) VALUES (?, ?)");
+            $stmt = $conn->prepare("INSERT INTO UserAccount (UserEmail, UserPassword) VALUES (?, ?)");
             $stmt->execute([$email, $hashedPassword]);
             return true; // User creation successful
         } catch (PDOException $e) {

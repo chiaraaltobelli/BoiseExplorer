@@ -1,2 +1,4 @@
 [2024-04-01 1:06:32.366842] [error] Connection success.
 [2024-04-01 1:06:32.489407] [error] Error saving activity: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'heroku_19905b6cee32fd5.city' doesn't exist
+[2024-04-01 1:11:42.369611] [error] Connection success.
+[2024-04-01 1:11:42.486911] [error] Error saving activity: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'heroku_19905b6cee32fd5.city' doesn't exist
