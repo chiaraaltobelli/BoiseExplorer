@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Boise Explorer</title>
-    <!-- Popup styling -->
-    <link rel="stylesheet" href=".popup.css">
+    <!-- Popup stying -->
+    <link rel="stylesheet" href="popup.css">
 </head>
 <body id="createAccount">
     <?php require_once "create_account_content.php"; ?>
