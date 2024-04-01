@@ -4,8 +4,6 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 require_once __DIR__ . '/lib/Logger.php';
 
-
-
 use Katzgrau\KLogger\Logger; // Ensure correct namespace import
 use Psr\Log\LogLevel; // Import LogLevel from Psr\Log namespace
 
@@ -104,12 +102,12 @@ class Dao {
     }
     
     private function getOrCreateStateId($conn, $state) {
-        $stmt = $conn->prepare("SELECT StateID FROM state WHERE State = ?");
+        $stmt = $conn->prepare("SELECT StateID FROM State WHERE State = ?");
         $stmt->bindParam(1, $state); // Bind state parameter
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$row) {
-            $stmt = $conn->prepare("INSERT INTO state (State) VALUES (?)");
+            $stmt = $conn->prepare("INSERT INTO State (State) VALUES (?)");
             $stmt->bindParam(1, $state); // Bind state parameter
             $stmt->execute();
             return $conn->lastInsertId();
@@ -135,7 +133,7 @@ class Dao {
         // Insert the address into the address table
         $countryId = 1; // Assuming default country ID is 1, modify as needed
         $address2 = ""; //leave blank
-        $stmt = $conn->prepare("INSERT INTO address (Address1, Address2, CityID, StateID, ZipCodeID, CountryID) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO Address (Address1, Address2, CityID, StateID, ZipCodeID, CountryID) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bindParam(1, $address1);
         $stmt->bindParam(2, $address2);
         $stmt->bindParam(3, $cityId);

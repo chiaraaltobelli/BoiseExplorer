@@ -7,6 +7,8 @@ $_SESSION['email'] = $email;
 
 if ($email === 'chiara.j.altobelli@gmail.com' && $password === 'Coffee465$') {
     $_SESSION['authenticated'] = true;
+    // Set login popup visibility to false
+    $_SESSION['login_popup_visible'] = false;
     // Stay on the same page after login if authenticated
     header("Location: " . $_SERVER['HTTP_REFERER']);
     exit();
