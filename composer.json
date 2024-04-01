@@ -26,6 +26,6 @@
         "psr-4": {
             "Katzgrau\\KLogger\\": "vendor/klogger/src/"
         },
-        "classmap": ["src/"]
+        "classmap": []
     }
 }
