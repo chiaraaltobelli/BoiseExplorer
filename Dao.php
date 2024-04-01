@@ -1,4 +1,4 @@
-<!-- <?php
+<?php
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -8,10 +8,16 @@ use Katzgrau\KLogger\Logger; // Ensure correct namespace import
 use Psr\Log\LogLevel; // Import LogLevel from Psr\Log namespace
 
 class Dao {
-    private $host = "us-cluster-east-01.k8s.cleardb.net";
-    private $db = "heroku_19905b6cee32fd5";
-    private $user = "bd27d135b8e3a9";
-    private $pass = "d7142ae8";
+    //Heroku:
+    // private $host = "us-cluster-east-01.k8s.cleardb.net";
+    // private $db = "heroku_19905b6cee32fd5";
+    // private $user = "bd27d135b8e3a9";
+    // private $pass = "d7142ae8";
+
+    private $host = "localhost";
+    private $db = "boiseexplorer";
+    private $user = "caltobelli";
+    private $pass = "Ronin465$";
     private $logger; // Add logger property
 
     public function __construct() {
@@ -36,29 +42,37 @@ class Dao {
 
     public function saveActivity($activityName, $activityType, $morning, $afternoon, $evening, $season, $address, $city, $state, $zip) {
         session_start();
-
+    
         if (!isset($_SESSION['email'])) {
             $this->logger->error("User is not logged in."); // Log error
             return false;
         }
-
+    
         $userEmail = $_SESSION['email'];
         $this->logger->info("saveActivity: [{$userEmail}],[{$activityName}],[{$activityType}],[{$morning}],[{$afternoon}],[{$evening}],[{$season}],[{$address}],[{$city}],[{$state}],[{$zip}]"); // Log info
-
+    
         $conn = $this->getConnection();
-
+    
         $this->checkConnection($conn);
-
+    
         try {
+            // Check if the activity already exists
+            $existingActivityId = $this->getActivityIdByName($conn, $activityName);
+            if ($existingActivityId) {
+                $this->logger->error("Activity '{$activityName}' already exists."); // Log error
+                return false; // Return false indicating that the activity already exists
+            }
+    
+            // If the activity does not exist, proceed with saving it
             $cityId = $this->getOrCreateCityId($conn, $city);
             $stateId = $this->getOrCreateStateId($conn, $state);
             $zipId = $this->getOrCreateZipId($conn, $zip);
-
+    
             $addressId = $this->insertAddress($conn, $address, $cityId, $stateId, $zipId);
             $seasonId = $this->getSeasonId($conn, $season);
             $activityTypeId = $this->getActivityTypeId($conn, $activityType);
             $userId = $this->getUserID($conn, $userEmail);
-
+    
             $saveQuery = "INSERT INTO Activity (ActivityName, Morning, Afternoon, Evening, SeasonID, ActivityTypeID, UserID, AddressID) 
                           VALUES (:activityName, :morning, :afternoon, :evening, :seasonId, :activityTypeId, :userId, :addressId)";
             $stmt = $conn->prepare($saveQuery);
@@ -71,13 +85,32 @@ class Dao {
             $stmt->bindParam(':userId', $userId);
             $stmt->bindParam(':addressId', $addressId);
             $stmt->execute();
-
+    
             return true;
         } catch (PDOException $e) {
             $this->logger->error("Error saving activity: " . $e->getMessage());
             return false;
         }
+    }    
+
+    public function getActivityIdByName($conn, $activityName) {
+        try {
+            $stmt = $conn->prepare("SELECT ActivityID FROM Activity WHERE ActivityName = ?");
+            $stmt->bindParam(1, $activityName);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($row) {
+                return $row['ActivityID'];
+            } else {
+                return false; // Activity does not exist
+            }
+        } catch (PDOException $e) {
+            // Handle database error
+            $this->logger->error("Error retrieving activity by name: " . $e->getMessage());
+            return null; // Return null instead of false
+        }
     }
+    
 
     private function getUserID($conn, $userEmail) {
         $stmt = $conn->prepare("SELECT UserID FROM UserAccount WHERE UserEmail = ?");
@@ -183,6 +216,36 @@ class Dao {
 		}
     }
 
+    public function getActivityTypesWithActivities() {
+        $conn = $this->getConnection();
+    
+        if (!$conn) {
+            // Handle the case where connection fails
+            return [];
+        }
+    
+        try {
+            $stmt = $conn->query("SELECT ActivityType, ActivityName FROM ActivityType JOIN Activity ON ActivityType.ActivityTypeID = Activity.ActivityTypeID");
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            $activityTypesWithActivities = [];
+            foreach ($results as $row) {
+                $activityType = $row['ActivityType'];
+                $activityName = $row['ActivityName'];
+                if (!isset($activityTypesWithActivities[$activityType])) {
+                    $activityTypesWithActivities[$activityType] = [];
+                }
+                $activityTypesWithActivities[$activityType][] = $activityName;
+            }
+    
+            return $activityTypesWithActivities;
+        } catch (PDOException $e) {
+            // Handle query execution error
+            $this->logger->error("Error fetching activity types with activities: " . $e->getMessage());
+            return [];
+        }
+    }    
+
     private function checkConnection($conn) {
         if (!$conn) {
             // Failed to get database connection
@@ -234,4 +297,4 @@ class Dao {
     }
     
 }
-?> -->
+?>

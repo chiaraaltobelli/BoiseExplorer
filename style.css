@@ -114,6 +114,24 @@ html, body {
   align-items: center;
 }
 
+.content-activity {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row; 
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.activity-type {
+  margin-right: 70px;
+}
+
+.activity-list {
+  list-style-type: none;
+  margin-left: 0; /* remove default margin */
+  padding-left: 0px; /* remove default padding */
+}
+
 /*Footer Styles*/
 .site-footer {
   display: flex;
