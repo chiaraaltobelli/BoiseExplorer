@@ -3,7 +3,7 @@
     <div class="form">
         <h2>Add Activity</h2>
         <!-- Add Activity Form -->
-        <form action="../handlers/add_activity_handler.php" method="POST">
+        <form action="add_activity_handler.php" method="POST">
             <!-- Activity Name -->
             <div class="form-element">
                 <label for="activityName">Activity Name<span class="required">*</span></label>

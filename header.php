@@ -30,17 +30,17 @@
                 $currentPage = basename($_SERVER['SCRIPT_NAME']);
                 ?>
                 <li><a href="index.php" class="<?= ($currentPage == 'index.php') ? 'active' : '' ?>">Home</a></li>
-                <li><a href="src/public/about.php" class="<?= ($currentPage == 'about.php') ? 'active' : '' ?>">About</a></li>
+                <li><a href="about.php" class="<?= ($currentPage == 'about.php') ? 'active' : '' ?>">About</a></li>
                 <li><a href="activities.php" class="<?= ($currentPage == 'activities.php') ? 'active' : '' ?>">Activities</a></li>
                 <li><a href="generate.php" class="<?= ($currentPage == 'generate.php') ? 'active' : '' ?>">Generate</a></li>
             </ul>
         </nav>
 
          <!-- Include the login status checker -->
-         <?php require_once __DIR__ . '/src/public/login_logout_buttons.php'; ?>
+         <?php require_once __DIR__ . '/login_logout_buttons.php'; ?>
 
          <!-- Include the login popup -->
-         <?php require_once __DIR__ . '/src/public/login.php'; ?>
+         <?php require_once __DIR__ . '/login.php'; ?>
          
    </header>
 </body>

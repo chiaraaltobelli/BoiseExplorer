@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../includes/Dao.php';
+require_once 'Dao.php';
 
 // Retrieve form data
 $activityName = $_POST['activityName'];
@@ -52,7 +52,7 @@ if (empty($zip)) {
 if (!empty($messages)) {
     $_SESSION['messages'] = $messages;
     $_SESSION['inputs'] = $_POST;
-    header("Location: ../public/activities.php");
+    header("Location: activities.php");
     exit();
 }
 
@@ -68,6 +68,6 @@ if ($success) {
 }
 
 // Redirect back to the activities page
-header("Location: /src/public/activities.php");
+header("Location: activities.php");
 exit();
 ?>
