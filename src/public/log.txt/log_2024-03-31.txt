@@ -97,3 +97,7 @@
 [2024-03-31 22:42:41.116781] [error] Connection success.
 [2024-03-31 22:43:12.128088] [error] getActivityTypes reached
 [2024-03-31 22:43:12.463149] [error] Connection success.
+[2024-03-31 22:52:14.050148] [error] getActivityTypes reached
+[2024-03-31 22:52:14.404247] [error] Connection success.
+[2024-03-31 22:52:26.051397] [error] getActivityTypes reached
+[2024-03-31 22:52:26.349750] [error] Connection success.
