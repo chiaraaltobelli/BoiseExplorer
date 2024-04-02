@@ -85,6 +85,11 @@ html, body {
   color: #000000;
 }
 
+.loginerror {
+  color: red;
+}
+
+
 /*Page Content Styles*/
 .content {
   box-sizing: border-box;
@@ -116,6 +121,7 @@ html, body {
 
 .content-activity {
   margin-top: 40px;
+  text-wrap: nowrap;
   display: flex;
   flex-direction: row; 
   justify-content: space-between;

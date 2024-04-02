@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once 'Dao.php';
 
 //Validation
 function sanitizeInput($data) {
@@ -47,19 +48,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($errors)) {
 
         // Hash the password
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         try {
-            // Establish a connection to the database
-            $pdo = new PDO("mysql:host=localhost;dbname=your_database", "username", "password");
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Set error mode to exception
-
+            $dao = new Dao();
+            $dao->getConnection();
             // Prepare and execute the SQL statement for insertion
-            $stmt = $pdo->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
-            $stmt->execute([$email, $hashedPassword]);
+            // Prepare and execute the SQL statement for insertion
+            $stmt = $dao->getConnection()->prepare("INSERT INTO UserAccount (UserEmail, UserPassword) VALUES (?, ?)");
+            $stmt->execute([$email, $password]);
+            // $stmt->execute([$email, $hashedPassword]);
 
             // Redirect the user to the login page after successful registration
-            header("Location: ../public/login.php");
+            header("Location: index.php");
             exit();
         } catch (PDOException $e) {
             // Handle database errors

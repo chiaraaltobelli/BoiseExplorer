@@ -17,12 +17,12 @@ CREATE TABLE UserAccount (
     UserID 			INT         	AUTO_INCREMENT PRIMARY KEY,
     UserEmail		VARCHAR(256)	NOT NULL,
     UserPassword	VARCHAR(64)		NOT NULL,
-    UserTypeID		INT				NOT NULL,
+    UserTypeID		INT	DEFAULT 2	NOT NULL,
 	CONSTRAINT fk_UserAccount_UserType FOREIGN KEY (UserTypeID) REFERENCES UserType(UserTypeID)
 ); 
 
 INSERT INTO UserAccount VALUES 
-(null, 'chiara.j.altobelli@gmail.com', 'Coffee465$', 1);
+(null, 'chiara.j.altobelli@gmail.com', 'password1', 1);
 
 CREATE TABLE City (
 	CityID 		INT				AUTO_INCREMENT PRIMARY KEY,

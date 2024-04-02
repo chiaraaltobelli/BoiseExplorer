@@ -9,16 +9,16 @@ use Psr\Log\LogLevel; // Import LogLevel from Psr\Log namespace
 
 class Dao {
     //Heroku:
-    private $host = "us-cluster-east-01.k8s.cleardb.net";
-    private $db = "heroku_19905b6cee32fd5";
-    private $user = "bd27d135b8e3a9";
-    private $pass = "d7142ae8";
+    // private $host = "us-cluster-east-01.k8s.cleardb.net";
+    // private $db = "heroku_19905b6cee32fd5";
+    // private $user = "bd27d135b8e3a9";
+    // private $pass = "d7142ae8";
 
     //WAMP
-    // private $host = "localhost";
-    // private $db = "boiseexplorer";
-    // private $user = "caltobelli";
-    // private $pass = "Ronin465$";
+    private $host = "localhost";
+    private $db = "boiseexplorer";
+    private $user = "caltobelli";
+    private $pass = "Ronin465$";
     private $logger; // Add logger property
 
     public function __construct() {
@@ -281,21 +281,19 @@ class Dao {
         }
     }
     
-
     public function getUserByEmail($email) {
         try {
-            // Retrieve user by email
             $conn = $this->getConnection();
-            // Prepare SQL statement to select user by email
-            $stmt = $conn->prepare("SELECT * FROM UserAccount WHERE UserEmail = ?");
-            $stmt->execute([$email]);
+            $stmt = $conn->prepare("SELECT * FROM UserAccount WHERE UserEmail = :email");
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            // Handle database error
             $this->logger->error("Error retrieving user by email: " . $e->getMessage());
-            return null; // Return null instead of false
+            return null;
         }
     }
+    
     
 }
 ?>
