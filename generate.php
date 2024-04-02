@@ -12,7 +12,7 @@
             </div> -->
         </div>
         <div class="content-center">     
-        <p>This will eventually pick one activity or create a full day itinerary at random.</p>
+        <p>This will eventually pick one activity or create a full day itinerary at random. The button doesn't do anything yet, but the categories and activities are generated programatically from the database.</p>
             <button>Generate</button>
             <h2>Explore Boise</h2>
             <?php

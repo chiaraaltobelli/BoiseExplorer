@@ -8,7 +8,7 @@
         <?php if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true): ?>
             <button id="addActivityBtn">Add Activity</button>
         <?php endif; ?>
-
+        <p>When logged in, this page allows the user to add their own activities. Right now it shows all activities, eventually it will show only the default activities and the logged in user's custom activities.</p>
         <!-- Include the addactivity popup -->
         <?php require_once "add_activity.php"; ?>
 
