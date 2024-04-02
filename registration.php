@@ -2,6 +2,7 @@
 <body class="page-container">
     <div class="content">
         <h1>Invalid Account Registration</h1>
+        <p>This will eventually have fancier error display.</p>
         <?php
         // Check if there are any validation errors in the session
         if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {

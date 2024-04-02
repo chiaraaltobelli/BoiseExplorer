@@ -8,6 +8,7 @@ $_SESSION['email'] = $email;
 require_once 'Dao.php';
 $dao = new Dao();
 $user = $dao->getUserByEmail($email);
+
 echo "<script>console.log('Entered email: " . $email . "');</script>";
 echo "<script>console.log('Entered password: " . $password . "');</script>";
 echo "<script>console.log('saved password: " . $user['UserPassword'] . "');</script>";

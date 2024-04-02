@@ -19,7 +19,7 @@ class Dao {
     // private $db = "boiseexplorer";
     // private $user = "caltobelli";
     // private $pass = "Ronin465$";
-    // private $logger; // Add logger property
+    private $logger; // Add logger property
 
     public function __construct() {
         $this->logger = new Logger("log.txt", LogLevel::WARNING); // Initialize logger
@@ -293,7 +293,46 @@ class Dao {
             return null;
         }
     }
+
+    public function getActivitiesByTimeOfDay() {
+        $conn = $this->getConnection();
     
+        if (!$conn) {
+            // Handle the case where connection fails
+            return [];
+        }
     
+        try {
+            // Fetch activities grouped by time of day
+            $stmt = $conn->query("SELECT ActivityName, Morning, Afternoon, Evening FROM Activity");
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            $activitiesByTimeOfDay = [
+                "Morning" => [],
+                "Afternoon" => [],
+                "Evening" => []
+            ];
+    
+            foreach ($results as $activity) {
+                // Check Morning, Afternoon, and Evening values and categorize the activity accordingly
+                if ($activity['Morning'] == 1) {
+                    $activitiesByTimeOfDay["Morning"][] = $activity['ActivityName'];
+                }
+                if ($activity['Afternoon'] == 1) {
+                    $activitiesByTimeOfDay["Afternoon"][] = $activity['ActivityName'];
+                }
+                if ($activity['Evening'] == 1) {
+                    $activitiesByTimeOfDay["Evening"][] = $activity['ActivityName'];
+                }
+            }
+    
+            return $activitiesByTimeOfDay;
+        } catch (PDOException $e) {
+            // Handle query execution error
+            $this->logger->error("Error fetching activities by time of day: " . $e->getMessage());
+            return [];
+        }
+    }
+       
 }
 ?>
