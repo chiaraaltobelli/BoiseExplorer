@@ -1,4 +1,3 @@
-
         <!-- Login Popup -->
         <div id="showLogin" class="popup">
             <div class="close-btn">&times;</div>
@@ -13,7 +12,7 @@
                 }
                 ?>  -->
                 <!-- Form -->
-                <form method="post" action="login_handler.php" id="loginForm">
+                <form method="post" action="../Handlers/login_handler.php" id="loginForm">
                 <div class="form-element">
                     <label for="email">Email</label>
                     <input type="text" id="email" name="email" placeholder="Enter email" autocomplete="email" required>

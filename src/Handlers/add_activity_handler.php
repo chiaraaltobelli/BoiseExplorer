@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'Dao.php';
+require_once __DIR__ . '../../Include/Dao.php';
 
 //Retrieve form data
 $activityName = $_POST['activityName'];
@@ -65,7 +65,7 @@ if (!empty($zip)) {
 if (!empty($messages)) {
     $_SESSION['messages'] = $messages;
     $_SESSION['inputs'] = $_POST;
-    header("Location: activities.php");
+    header("Location: ../Public/activities.php");
     exit();
 }
 

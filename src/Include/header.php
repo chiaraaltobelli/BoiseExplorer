@@ -3,23 +3,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../../favicon.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Boise Explorer</title>
     <!-- Site styling -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <!-- Popup stying -->
-    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="../popup.css">
 </head>
 <body>
     <!-- Header -->
     <header class="site-header">
         <div>
             <!-- Branding -->
-            <a href="index.php" class="header-link">
+            <a href="../../index.php" class="header-link">
                 <h1>Boise Explorer</h1>
-                <img src="images/adventures.png" alt="Boise Explorer Logo" class="branding-icon">
+                <img src="/test/images/adventures.png" alt="Boise Explorer Logo" class="branding-icon">
             </a>
         </div>
         
@@ -29,10 +29,10 @@
                 <?php
                 $currentPage = basename($_SERVER['SCRIPT_NAME']);
                 ?>
-                <li><a href="index.php" class="<?= ($currentPage == 'index.php') ? 'active' : '' ?>">Home</a></li>
-                <li><a href="about.php" class="<?= ($currentPage == 'about.php') ? 'active' : '' ?>">About</a></li>
-                <li><a href="activities.php" class="<?= ($currentPage == 'activities.php') ? 'active' : '' ?>">Activities</a></li>
-                <li><a href="generate.php" class="<?= ($currentPage == 'generate.php') ? 'active' : '' ?>">Generate</a></li>
+                <li><a href="../../index.php" class="<?= ($currentPage == '../../index.php') ? 'active' : '' ?>">Home</a></li>
+                <li><a href="/test/src/Public/about.php" class="<?= ($currentPage == 'about.php') ? 'active' : '' ?>">About</a></li>
+                <li><a href="/test/src/Public/activities.php" class="<?= ($currentPage == 'activities.php') ? 'active' : '' ?>">Activities</a></li>
+                <li><a href="/test/src/Public/generate.php" class="<?= ($currentPage == 'generate.php') ? 'active' : '' ?>">Generate</a></li>
             </ul>
         </nav>
 
@@ -40,7 +40,7 @@
          <?php require_once __DIR__ . '/login_logout_buttons.php'; ?>
 
          <!-- Include the login popup -->
-         <?php require_once __DIR__ . '/login.php'; ?>
+         <?php require_once __DIR__ . '../../Public/login.php'; ?>
          
    </header>
 </body>

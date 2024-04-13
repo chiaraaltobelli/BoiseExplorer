@@ -1,5 +1,4 @@
-<?php require_once __DIR__ . '/header.php'; ?>
-<link rel="stylesheet" href="style.css">
+<?php require_once __DIR__ . '../../Include/header.php'; ?>
 <body class="page-container">
     <div class="content">
       <h1>About</h1>
@@ -21,4 +20,4 @@
       <h3>Beyond the Adventure</h3>
       <p>In addition to generating exciting itineraries, Boise Adventure Generator encourages users to contribute by adding new places and activities, saving personalized itineraries for future adventures, and accessing past itineraries to relive the memories.</p>
     </div>
-    <?php require_once __DIR__ . '/footer.php'; ?>
+    <?php require_once __DIR__ . '../../Include/footer.php'; ?>
