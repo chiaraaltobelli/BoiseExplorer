@@ -12,7 +12,6 @@ $states = $dao->getStates();
 //Display any error messages
 if (isset($_SESSION['messages']) && !empty($_SESSION['messages'])): ?>
     <div class="error-messages" role="alert">
-    <button class="close-error">X</button>
         <?php foreach ($_SESSION['messages'] as $message): ?>
             <p class="loginerror"><?= htmlspecialchars($message); ?></p>
         <?php endforeach; ?>
