@@ -19,7 +19,7 @@ class Dao {
     // private $db = "boiseexplorer";
     // private $user = "caltobelli";
     // private $pass = "Ronin465$";
-    // private $logger;
+    private $logger;
 
     public function __construct() {
         $this->logger = new Logger("log.txt", LogLevel::WARNING);

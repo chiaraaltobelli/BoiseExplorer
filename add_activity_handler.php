@@ -37,9 +37,9 @@ if (empty($address)) {
 }
 
 if (!empty($address)) {
-    //Basic validation to check for a plausible address format
-    if (!preg_match("/^\d+\s[A-Za-z]+\s[A-Za-z]+/", $address)) { //address starts with a digit (^\d), then a space (\s), then letters
-        $messages[] = "Please enter a valid address.";
+    // Updated regex to include numbers, letters, and common abbreviations for street types
+    if (!preg_match("/^\d+\s+[A-Za-z0-9]+\s+[A-Za-z0-9]+(?:\s[A-Za-z\.]+)*$/", $address)) {
+        $messages[] = "Please enter a valid address format.";
     }
 }
 
