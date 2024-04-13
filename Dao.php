@@ -44,27 +44,27 @@ class Dao {
     public function saveActivity($activityName, $activityType, $morning, $afternoon, $evening, $season, $address, $city, $state, $zip) {
         if (!isset($_SESSION['email'])) {
             $this->logger->error("User is not logged in.");
-            return 'login_required';
+            return 'login_required';  // Or consider throwing an exception
         }
     
         $conn = $this->getConnection();
         $this->checkConnection($conn);
+        $userId = $this->getUserID($conn, $_SESSION['email']);
     
         try {
-            $existingActivityId = $this->getActivityIdByName($conn, $activityName);
+            $existingActivityId = $this->getActivityIdByName($conn, $activityName, $userId);
             if ($existingActivityId) {
                 $this->logger->error("Activity '{$activityName}' already exists.");
-                return 'activity_exists';
+                return 'activity_exists';  // Specific code indicating activity already exists
             }
     
-            //Continue with saving if the activity does not exist
+            // Continue with saving if the activity does not exist
             $cityId = $this->getOrCreateCityId($conn, $city);
             $stateId = $this->getOrCreateStateId($conn, $state);
             $zipId = $this->getOrCreateZipId($conn, $zip);
             $addressId = $this->insertAddress($conn, $address, $cityId, $stateId, $zipId);
             $seasonId = $this->getSeasonId($conn, $season);
             $activityTypeId = $this->getActivityTypeId($conn, $activityType);
-            $userId = $this->getUserID($conn, $_SESSION['email']);
     
             $saveQuery = "INSERT INTO Activity (ActivityName, Morning, Afternoon, Evening, SeasonID, ActivityTypeID, UserID, AddressID) 
                           VALUES (:activityName, :morning, :afternoon, :evening, :seasonId, :activityTypeId, :userId, :addressId)";
@@ -82,30 +82,24 @@ class Dao {
             return 'success';
         } catch (PDOException $e) {
             $this->logger->error("Error saving activity: " . $e->getMessage());
-            return 'database_error';
+            return 'database_error';  // Or consider throwing an exception
         }
     }
     
-
-    public function getActivityIdByName($conn, $activityName) {
+    
+    public function getActivityIdByName($conn, $activityName, $userId) {
         try {
-            $stmt = $conn->prepare("SELECT ActivityID FROM Activity WHERE ActivityName = ?");
-            $stmt->bindParam(1, $activityName);
-            $stmt->execute();
+            // Query to check if the activity exists either under the default user or the current user
+            $stmt = $conn->prepare("SELECT ActivityID FROM Activity WHERE ActivityName = ? AND (UserID = 1 OR UserID = ?)");
+            $stmt->execute([$activityName, $userId]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($row) {
-                return $row['ActivityID'];
-            } else {
-                return false; //Activity does not exist
-            }
+            return $row ? $row['ActivityID'] : null;
         } catch (PDOException $e) {
-            //Handle database error
             $this->logger->error("Error retrieving activity by name: " . $e->getMessage());
             return null;
         }
     }
-    
-
+   
     private function getUserID($conn, $userEmail) {
         $stmt = $conn->prepare("SELECT UserID FROM UserAccount WHERE UserEmail = ?");
         $stmt->bindParam(1, $userEmail);
