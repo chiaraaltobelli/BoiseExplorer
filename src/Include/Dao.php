@@ -1,8 +1,17 @@
+<head>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Boise Explorer</title>
+    <!-- Site styling -->
+    <link rel="stylesheet" href="../style.css">
+    <!-- Popup stying -->
+    <link rel="stylesheet" href="../popup.css">
+</head>
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
-
-require_once __DIR__ . '/lib/Logger.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../../lib/Logger.php';
 
 use Katzgrau\KLogger\Logger; // Ensure correct namespace import
 use Psr\Log\LogLevel; // Import LogLevel from Psr\Log namespace

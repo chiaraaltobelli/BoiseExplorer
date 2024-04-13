@@ -1,0 +1,18 @@
+[2024-04-13 1:21:55.477509] [error] getActivityTypes reached
+[2024-04-13 1:21:55.478647] [error] Connection failed: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for us-cluster-east-01.k8s.cleardb.net failed: No such host is known. 
+[2024-04-13 1:21:55.478907] [error] Failed to get database connection.
+[2024-04-13 1:22:00.261636] [error] Connection failed: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for us-cluster-east-01.k8s.cleardb.net failed: No such host is known. 
+[2024-04-13 1:29:57.398556] [error] getActivityTypes reached
+[2024-04-13 1:29:57.400204] [error] Connection failed: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for us-cluster-east-01.k8s.cleardb.net failed: No such host is known. 
+[2024-04-13 1:29:57.411807] [error] Failed to get database connection.
+[2024-04-13 1:34:10.546251] [error] getActivityTypes reached
+[2024-04-13 1:34:10.996004] [error] Connection success.
+[2024-04-13 1:34:11.884814] [error] Connection success.
+[2024-04-13 1:34:22.100440] [error] Connection success.
+[2024-04-13 1:34:59.574744] [error] getActivityTypes reached
+[2024-04-13 1:34:59.824897] [error] Connection success.
+[2024-04-13 1:35:00.176987] [error] Connection success.
+[2024-04-13 1:35:01.269872] [error] Connection success.
+[2024-04-13 1:39:22.574495] [error] getActivityTypes reached
+[2024-04-13 1:39:22.934533] [error] Connection success.
+[2024-04-13 1:39:23.366370] [error] Connection success.

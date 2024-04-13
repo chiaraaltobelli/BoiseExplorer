@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'Dao.php';
+require_once __DIR__ . '../../Include/Dao.php';
 
 //Validation
 function sanitizeInput($data) {
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // $stmt->execute([$email, $hashedPassword]);
 
             // Redirect the user to the login page after successful registration
-            header("Location: index.php");
+            header("Location: ../../index.php");
             exit();
         } catch (PDOException $e) {
             // Handle database errors
@@ -70,12 +70,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         // Validation errors occurred, redirect back to the registration page with error messages
         $_SESSION['errors'] = $errors;
-        header("Location: registration.php");
+        header("Location: ../Public/registration.php");
         exit();
     }
 } else {
     // Redirect to an error page or home page if accessed directly without submitting the form
-    header("Location: index.php");
+    header("Location: ../../index.php");
     exit();
 }
 

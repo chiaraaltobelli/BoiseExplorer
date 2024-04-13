@@ -5,7 +5,7 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 $_SESSION['email'] = $email;
 
-require_once 'Dao.php';
+require_once __DIR__ . '../../Include/Dao.php';
 $dao = new Dao();
 $user = $dao->getUserByEmail($email);
 
@@ -39,7 +39,7 @@ if ($user && $password === $user['UserPassword']) {
     if(isset($_SERVER['HTTP_REFERER'])){
         header("Location: " . $redirectUrl);
     } else {
-        header("Location: index.php");
+        header("Location: ../../index.php");
     }
 
     exit();

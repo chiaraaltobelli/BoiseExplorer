@@ -1,11 +1,9 @@
-
-
 <div id="addActivity" class="popup">
     <div class="closeBtn">&times;</div>
     <div class="form">
         <h2>Add Activity</h2>
         <!-- Add Activity Form -->
-        <form action="add_activity_handler.php" method="POST">
+        <form action="../Handlers/add_activity_handler.php" method="POST">
             <!-- Activity Name -->
             <div class="form-element">
                 <label for="activityName">Activity Name<span class="required">*</span></label>
