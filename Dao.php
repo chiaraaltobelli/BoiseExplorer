@@ -4,25 +4,25 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 require_once __DIR__ . '/lib/Logger.php';
 
-use Katzgrau\KLogger\Logger; // Ensure correct namespace import
-use Psr\Log\LogLevel; // Import LogLevel from Psr\Log namespace
+use Katzgrau\KLogger\Logger;
+use Psr\Log\LogLevel;
 
 class Dao {
     //Heroku:
-    private $host = "us-cluster-east-01.k8s.cleardb.net";
-    private $db = "heroku_19905b6cee32fd5";
-    private $user = "bd27d135b8e3a9";
-    private $pass = "d7142ae8";
+    // private $host = "us-cluster-east-01.k8s.cleardb.net";
+    // private $db = "heroku_19905b6cee32fd5";
+    // private $user = "bd27d135b8e3a9";
+    // private $pass = "d7142ae8";
 
     //WAMP
-    // private $host = "localhost";
-    // private $db = "boiseexplorer";
-    // private $user = "caltobelli";
-    // private $pass = "Ronin465$";
-    private $logger; // Add logger property
+    private $host = "localhost";
+    private $db = "boiseexplorer";
+    private $user = "caltobelli";
+    private $pass = "Ronin465$";
+    private $logger;
 
     public function __construct() {
-        $this->logger = new Logger("log.txt", LogLevel::WARNING); // Initialize logger
+        $this->logger = new Logger("log.txt", LogLevel::WARNING);
     }
 
     public function getLogger() {
@@ -32,47 +32,39 @@ class Dao {
     public function getConnection() {
         try {
             $connection = new PDO("mysql:host={$this->host};dbname={$this->db}", $this->user, $this->pass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-            $this->logger->error("Connection success."); // Log success
+            $this->logger->error("Connection success.");
             return $connection;
         } catch (PDOException $e) {
-            $this->logger->error("Connection failed: " . $e->getMessage()); // Log error
+            $this->logger->error("Connection failed: " . $e->getMessage());
             return null;
         }
     }
     
 
     public function saveActivity($activityName, $activityType, $morning, $afternoon, $evening, $season, $address, $city, $state, $zip) {
-        session_start();
-    
         if (!isset($_SESSION['email'])) {
-            $this->logger->error("User is not logged in."); // Log error
-            return false;
+            $this->logger->error("User is not logged in.");
+            return 'login_required';
         }
     
-        $userEmail = $_SESSION['email'];
-        $this->logger->info("saveActivity: [{$userEmail}],[{$activityName}],[{$activityType}],[{$morning}],[{$afternoon}],[{$evening}],[{$season}],[{$address}],[{$city}],[{$state}],[{$zip}]"); // Log info
-    
         $conn = $this->getConnection();
-    
         $this->checkConnection($conn);
     
         try {
-            // Check if the activity already exists
             $existingActivityId = $this->getActivityIdByName($conn, $activityName);
             if ($existingActivityId) {
-                $this->logger->error("Activity '{$activityName}' already exists."); // Log error
-                return false; // Return false indicating that the activity already exists
+                $this->logger->error("Activity '{$activityName}' already exists.");
+                return 'activity_exists';
             }
     
-            // If the activity does not exist, proceed with saving it
+            //Continue with saving if the activity does not exist
             $cityId = $this->getOrCreateCityId($conn, $city);
             $stateId = $this->getOrCreateStateId($conn, $state);
             $zipId = $this->getOrCreateZipId($conn, $zip);
-    
             $addressId = $this->insertAddress($conn, $address, $cityId, $stateId, $zipId);
             $seasonId = $this->getSeasonId($conn, $season);
             $activityTypeId = $this->getActivityTypeId($conn, $activityType);
-            $userId = $this->getUserID($conn, $userEmail);
+            $userId = $this->getUserID($conn, $_SESSION['email']);
     
             $saveQuery = "INSERT INTO Activity (ActivityName, Morning, Afternoon, Evening, SeasonID, ActivityTypeID, UserID, AddressID) 
                           VALUES (:activityName, :morning, :afternoon, :evening, :seasonId, :activityTypeId, :userId, :addressId)";
@@ -87,12 +79,13 @@ class Dao {
             $stmt->bindParam(':addressId', $addressId);
             $stmt->execute();
     
-            return true;
+            return 'success';
         } catch (PDOException $e) {
             $this->logger->error("Error saving activity: " . $e->getMessage());
-            return false;
+            return 'database_error';
         }
-    }    
+    }
+    
 
     public function getActivityIdByName($conn, $activityName) {
         try {
@@ -103,19 +96,19 @@ class Dao {
             if ($row) {
                 return $row['ActivityID'];
             } else {
-                return false; // Activity does not exist
+                return false; //Activity does not exist
             }
         } catch (PDOException $e) {
-            // Handle database error
+            //Handle database error
             $this->logger->error("Error retrieving activity by name: " . $e->getMessage());
-            return null; // Return null instead of false
+            return null;
         }
     }
     
 
     private function getUserID($conn, $userEmail) {
         $stmt = $conn->prepare("SELECT UserID FROM UserAccount WHERE UserEmail = ?");
-        $stmt->bindParam(1, $userEmail); // Bind user email parameter
+        $stmt->bindParam(1, $userEmail);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row['UserID'];
@@ -123,12 +116,12 @@ class Dao {
 
     private function getOrCreateCityId($conn, $city) {
         $stmt = $conn->prepare("SELECT CityID FROM City WHERE City = ?");
-        $stmt->bindParam(1, $city); // Bind city parameter
+        $stmt->bindParam(1, $city);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$row) {
             $stmt = $conn->prepare("INSERT INTO City (City) VALUES (?)");
-            $stmt->bindParam(1, $city); // Bind city parameter
+            $stmt->bindParam(1, $city);
             $stmt->execute();
             return $conn->lastInsertId();
         }
@@ -137,12 +130,12 @@ class Dao {
     
     private function getOrCreateStateId($conn, $state) {
         $stmt = $conn->prepare("SELECT StateID FROM State WHERE State = ?");
-        $stmt->bindParam(1, $state); // Bind state parameter
+        $stmt->bindParam(1, $state);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$row) {
             $stmt = $conn->prepare("INSERT INTO State (State) VALUES (?)");
-            $stmt->bindParam(1, $state); // Bind state parameter
+            $stmt->bindParam(1, $state);
             $stmt->execute();
             return $conn->lastInsertId();
         }
@@ -151,12 +144,12 @@ class Dao {
     
     private function getOrCreateZipId($conn, $zip) {
         $stmt = $conn->prepare("SELECT ZipCodeID FROM ZipCode WHERE ZipCode = ?");
-        $stmt->bindParam(1, $zip); // Bind zip parameter
+        $stmt->bindParam(1, $zip); 
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$row) {
             $stmt = $conn->prepare("INSERT INTO ZipCode (ZipCode) VALUES (?)");
-            $stmt->bindParam(1, $zip); // Bind zip parameter
+            $stmt->bindParam(1, $zip); 
             $stmt->execute();
             return $conn->lastInsertId();
         }
@@ -165,8 +158,8 @@ class Dao {
 
     private function insertAddress($conn, $address1, $cityId, $stateId, $zipId) {
         // Insert the address into the address table
-        $countryId = 1; // Assuming default country ID is 1, modify as needed
-        $address2 = ""; //leave blank
+        $countryId = 1; //Assuming default country ID is 1
+        $address2 = ""; //Default blank, not currently in use
         $stmt = $conn->prepare("INSERT INTO Address (Address1, Address2, CityID, StateID, ZipCodeID, CountryID) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bindParam(1, $address1);
         $stmt->bindParam(2, $address2);
@@ -185,8 +178,7 @@ class Dao {
         $stmt->execute([$season]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$row) {
-            // Handle if season not found
-            return null;
+            return null; //if season is not found
         }
         return $row['SeasonID'];
     }
@@ -196,8 +188,7 @@ class Dao {
         $stmt->execute([$activityType]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$row) {
-            // Handle if activity type not found
-            return null;
+            return null; //if activity type is not found
         }
         return $row['ActivityTypeID'];
     }
@@ -212,44 +203,109 @@ class Dao {
 			$stmt = $conn->query("SELECT ActivityType FROM ActivityType");
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		} catch (PDOException $e) {
-			// Handle query execution error
 			return array();
 		}
     }
 
-    public function getActivityTypesWithActivities() {
+    public function getStates() {
         $conn = $this->getConnection();
-    
-        if (!$conn) {
-            // Handle the case where connection fails
-            return [];
-        }
-    
+        $this->checkConnection($conn);
         try {
-            $stmt = $conn->query("SELECT ActivityType, ActivityName FROM ActivityType JOIN Activity ON ActivityType.ActivityTypeID = Activity.ActivityTypeID");
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-            $activityTypesWithActivities = [];
-            foreach ($results as $row) {
-                $activityType = $row['ActivityType'];
-                $activityName = $row['ActivityName'];
-                if (!isset($activityTypesWithActivities[$activityType])) {
-                    $activityTypesWithActivities[$activityType] = [];
-                }
-                $activityTypesWithActivities[$activityType][] = $activityName;
+            $stmt = $conn->query("SELECT State FROM State");
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (empty($result)) {
+                $this->logger->error("No states found in the database.");
             }
-    
-            return $activityTypesWithActivities;
+            return $result;
         } catch (PDOException $e) {
-            // Handle query execution error
-            $this->logger->error("Error fetching activity types with activities: " . $e->getMessage());
+            $this->logger->error("Error in getStates: " . $e->getMessage());
+            return array();
+        }
+    }  
+
+    public function getCities() {
+        $conn = $this->getConnection();
+        $this->checkConnection($conn);
+        try {
+            $stmt = $conn->query("SELECT City FROM City");
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (empty($result)) {
+                $this->logger->error("No cities found in the database.");
+            }
+            return $result;
+        } catch (PDOException $e) {
+            $this->logger->error("Error in getCities: " . $e->getMessage());
+            return array();
+        }
+    }   
+    
+    public function getSeasons() {
+        $conn = $this->getConnection();
+        $this->checkConnection($conn);
+        try {
+            $stmt = $conn->query("SELECT Season FROM Season");
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (empty($result)) {
+                $this->logger->error("No seasons found in the database.");
+            }
+            return $result;
+        } catch (PDOException $e) {
+            $this->logger->error("Error in getSeasons: " . $e->getMessage());
+            return array();
+        }
+    }  
+
+    public function getTimeOfDay() {
+        $conn = $this->getConnection();
+        $this->checkConnection($conn);
+        try {
+            $stmt = $conn->query("SELECT TimeOfDay FROM TimeOfDay");
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (empty($result)) {
+                $this->logger->error("No 'TimeOfDay' found in the database.");
+            }
+            return $result;
+        } catch (PDOException $e) {
+            $this->logger->error("Error in getTimeOfDay: " . $e->getMessage());
+            return array();
+        }
+    }  
+
+    public function getActivityTypesWithActivities($userId = null) {
+        $conn = $this->getConnection();
+        if (!$conn) {
             return [];
         }
-    }    
+    
+        $sql = "SELECT t.ActivityType, a.ActivityName 
+                FROM ActivityType t 
+                JOIN Activity a ON t.ActivityTypeID = a.ActivityTypeID 
+                WHERE a.UserID = 1";  // Default activities
+    
+        if ($userId) {
+            $sql .= " OR a.UserID = :userId";  // Add user-specific activities
+        }
+    
+        $sql .= " ORDER BY t.ActivityType, a.ActivityName";
+        $stmt = $conn->prepare($sql);
+    
+        if ($userId) {
+            $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        }
+    
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $activityTypesWithActivities = [];
+        foreach ($results as $row) {
+            $activityTypesWithActivities[$row['ActivityType']][] = $row['ActivityName'];
+        }
+    
+        return $activityTypesWithActivities;
+    }     
 
     private function checkConnection($conn) {
         if (!$conn) {
-            // Failed to get database connection
+            //Failed to get database connection
             $this->logger->error("Failed to get database connection."); // Log error
             return false;
         }
@@ -259,25 +315,24 @@ class Dao {
 
     public function createUser($email, $hashedPassword) {
         try {
-            // Check if user already exists
+            //Check if user already exists
             $existingUser = $this->getUserByEmail($email);
             if ($existingUser) {
-                // User with this email already exists
+                //User with this email already exists
                 return false;
             }
             
-            // Create a new user
+            //Create a new user
             $conn = $this->getConnection();
             $this->checkConnection($conn);
             
-            // Prepare SQL statement to insert user into the database
+            //Prepare SQL statement to insert user into the database
             $stmt = $conn->prepare("INSERT INTO UserAccount (UserEmail, UserPassword) VALUES (?, ?)");
             $stmt->execute([$email, $hashedPassword]);
-            return true; // User creation successful
+            return true; //User creation successful
         } catch (PDOException $e) {
-            // Handle database error
             $this->logger->error("Error creating user: " . $e->getMessage());
-            return false; // User creation failed
+            return false; //User creation failed
         }
     }
     
@@ -298,12 +353,11 @@ class Dao {
         $conn = $this->getConnection();
     
         if (!$conn) {
-            // Handle the case where connection fails
             return [];
         }
     
         try {
-            // Fetch activities grouped by time of day
+            //Fetch activities grouped by time of day
             $stmt = $conn->query("SELECT ActivityName, Morning, Afternoon, Evening FROM Activity");
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
@@ -314,7 +368,7 @@ class Dao {
             ];
     
             foreach ($results as $activity) {
-                // Check Morning, Afternoon, and Evening values and categorize the activity accordingly
+                //Check Morning, Afternoon, and Evening values and categorize the activity accordingly
                 if ($activity['Morning'] == 1) {
                     $activitiesByTimeOfDay["Morning"][] = $activity['ActivityName'];
                 }
@@ -328,7 +382,6 @@ class Dao {
     
             return $activitiesByTimeOfDay;
         } catch (PDOException $e) {
-            // Handle query execution error
             $this->logger->error("Error fetching activities by time of day: " . $e->getMessage());
             return [];
         }

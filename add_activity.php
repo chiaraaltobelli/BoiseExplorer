@@ -1,88 +1,107 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="activities.js"></script>
 
+<?php
+require_once __DIR__ . '/Dao.php';
+$dao = new Dao();
+$activityTypes = $dao->getActivityTypes();
+$seasons = $dao->getSeasons();
+$cities = $dao->getCities();
+$states = $dao->getStates();
+
+//Display any error messages
+if (isset($_SESSION['messages']) && !empty($_SESSION['messages'])): ?>
+    <div class="error-messages" role="alert">
+    <button class="close-error">X</button>
+        <?php foreach ($_SESSION['messages'] as $message): ?>
+            <p class="loginerror"><?= htmlspecialchars($message); ?></p>
+        <?php endforeach; ?>
+    </div>
+    <?php
+        unset($_SESSION['messages']); // Clear messages after displaying
+    endif;
+
+?>
 
 <div id="addActivity" class="popup">
     <div class="closeBtn">&times;</div>
-    <div class="form">
+    <form action="add_activity_handler.php" method="POST" class="form">
         <h2>Add Activity</h2>
-        <!-- Add Activity Form -->
-        <form action="add_activity_handler.php" method="POST">
-            <!-- Activity Name -->
-            <div class="form-element">
-                <label for="activityName">Activity Name<span class="required">*</span></label>
-                <input type="text" id="activityName" name="activityName" placeholder="Activity Name" required>
-            </div>
-            <!-- Activity Type -->
-            <div class="form-element">
-                <label for="activityType">Activity Type<span class="required">*</span></label>
 
-                <!-- Populate types from database -->
-                <select id="activityType" name="activityType" required>
-                <?php
-                    require_once __DIR__ . '/Dao.php';
-                    $dao = new Dao();
-                    $activityTypes = $dao->getActivityTypes();
-            
-                    foreach($activityTypes as $type) {
-                        echo "<option value='{$type['ActivityType']}'>{$type['ActivityType']}</option>";
-                    }
-                ?>
-                </select>
+        <!-- Activity Name -->
+        <div class="form-element">
+            <label for="activityName">Activity Name<span class="required">*</span></label>
+            <input type="text" id="activityName" name="activityName" placeholder="Activity Name" required value="<?= htmlspecialchars($_SESSION['inputs']['activityName'] ?? '') ?>">
+        </div>
 
-                <!-- Without database for testing -->
-                <!-- <select id="activityType" name="activityType" required>
-                    <option value="Dining">Dining</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="Arts & Culture">Arts & Culture</option>
-                    <option value="Outdoor Recreation">Outdoor Recreation</option>
-                    <option value="Shopping">Shopping</option>
-                </select> -->
+        <!-- Activity Type -->
+        <div class="form-element">
+            <label for="activityType">Activity Type<span class="required">*</span></label>
+            <select id="activityType" name="activityType" required>
+            <?php foreach ($activityTypes as $type): ?>
+                <option value="<?= htmlspecialchars($type['ActivityType']) ?>" <?= (isset($_SESSION['inputs']['activityType']) && $_SESSION['inputs']['activityType'] == $type['ActivityType']) ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($type['ActivityType']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        </div>
 
-            </div>
-            <!-- Time of Day -->
-            <div class="form-element">
-                <label>Time of Day<span class="required">*</span></label>
-                <div>
-                    <input type="checkbox" id="morning" name="morning">
-                    <label for="morning">Morning</label>
-                    <input type="checkbox" id="afternoon" name="afternoon">
-                    <label for="afternoon">Afternoon</label>
-                    <input type="checkbox" id="evening" name="evening">
-                    <label for="evening">Evening</label>
+        <!-- Time Of Day -->
+        <div >
+        <fieldset class="form-element">
+            <legend>Time of Day<span class="required">*</span></legend>
+            <label for="morning">Morning<input type="checkbox" id="morning" name="morning" class="time-of-day-checkbox" <?= $_SESSION['inputs']['morning'] ?? '' ?>></label>
+            <label for="afternoon">Afternoon<input type="checkbox" id="afternoon" name="afternoon" class="time-of-day-checkbox" <?= $_SESSION['inputs']['afternoon'] ?? '' ?>></label>
+            <label for="evening">Evening<input type="checkbox" id="evening" name="evening" class="time-of-day-checkbox" <?= $_SESSION['inputs']['evening'] ?? '' ?>></label>
+        </fieldset>
                 </div>
-            </div>
-            <!-- Season -->
-            <div class="form-element">
-                <label for="season">Season<span class="required">*</span></label>
-                <select id="season" name="season" required>
-                    <option value="Any">Any</option>
-                    <option value="Warm Weather">Warm Weather</option>
-                    <option value="Cold Weather">Cold Weather</option>
-                </select>
-            </div>
-            <!-- Address -->
-            <div class="form-element">
-                <label for="address">Address<span class="required">*</span></label>
-                <input type="text" id="address" name="address" placeholder="Address" required>
-            </div>
-            <!-- City -->
-            <div class="form-element">
-                <label for="city">City<span class="required">*</span></label>
-                <input type="text" id="city" name="city" placeholder="City" required>
-            </div>
-            <!-- State -->
-            <div class="form-element">
-                <label for="state">State<span class="required">*</span></label>
-                <input type="text"  id="state" name="state" placeholder="State" required>
-            </div>
-            <!-- Zip -->
-            <div class="form-element">
-                <label for="zip">Zip<span class="required">*</span></label>
-                <input type="number" id="zip" name="zip" placeholder="Zip" required>
-            </div>
-            <!-- Add Activity Button -->
-            <div class="form-element">
-                <button type="submit">Add Activity</button>
-            </div>
-        </form>
-    </div>
+
+        <!-- Season -->
+        <div class="form-element">
+            <label for="season">Season<span class="required">*</span></label>
+            <select id="season" name="season" required>
+                <?php foreach ($seasons as $type): ?>
+                    <option value="<?= htmlspecialchars($type['Season']) ?>" <?= (isset($_SESSION['inputs']['Season']) && $_SESSION['inputs']['Season'] == $type['Season']) ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($type['Season']) ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <!-- Address -->
+        <div class="form-element">
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" placeholder="Address" required value="<?= htmlspecialchars($_SESSION['inputs']['address'] ?? '') ?>">
+        </div>
+
+        <!-- City -->
+        <div class="form-element">
+            <label for="city">City<span class="required">*</span></label>
+            <select id="city" name="city" required>
+                <?php foreach ($cities as $type): ?>
+                    <option value="<?= htmlspecialchars($type['City']) ?>"><?= htmlspecialchars($type['City']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <!-- State -->
+        <div class="form-element">
+            <label for="state">State<span class="required">*</span></label>
+            <select id="state" name="state" required>
+                <?php foreach ($states as $type): ?>
+                    <option value="<?= htmlspecialchars($type['State']) ?>"><?= htmlspecialchars($type['State']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <!-- Zip -->
+        <div class="form-element">
+            <label for="zip">Zip</label>
+            <input type="number" id="zip" name="zip" placeholder="Zip" required value="<?= htmlspecialchars($_SESSION['inputs']['zip'] ?? '') ?>">
+        </div>
+
+        <div class="form-element">
+            <button type="submit">Add Activity</button>
+        </div>
+    </form>
 </div>

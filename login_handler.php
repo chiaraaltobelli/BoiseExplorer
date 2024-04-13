@@ -1,47 +1,48 @@
 <?php
 session_start();
 
-$email = $_POST['email'];
-$password = $_POST['password'];
-$_SESSION['email'] = $email;
+// Safety check for POST data
+$email = $_POST['email'] ?? null;
+$password = $_POST['password'] ?? null;
+$_SESSION['email'] = $email;  // Consider security implications of storing email in session.
 
 require_once 'Dao.php';
 $dao = new Dao();
 $user = $dao->getUserByEmail($email);
 
-echo "<script>console.log('Entered email: " . $email . "');</script>";
-echo "<script>console.log('Entered password: " . $password . "');</script>";
-echo "<script>console.log('saved password: " . $user['UserPassword'] . "');</script>";
-
+// Initialize session flags
+$_SESSION['login_popup_visible'] = false;
+$_SESSION['authenticated'] = false;
+$_SESSION['loginerror'] = false;
 
 if ($user && $password === $user['UserPassword']) {
-    // Set login popup visibility to false
-    $_SESSION['login_popup_visible'] = false;
+    // Set user ID and authentication flag in session
+    $_SESSION['userID'] = $user['UserID']; // Make sure 'UserID' matches your database column
     $_SESSION['authenticated'] = true;
-    echo "<script>console.log('authenticated: " . $_SESSION['authenticated'] . "');</script>";
-    // Stay on the same page after login if authenticated
-    header("Location: " . $_SERVER['HTTP_REFERER']);
+
+    // Redirect to a cleaned up referer URL, or to a fallback if not available
+    $referer = $_SERVER['HTTP_REFERER'] ?? 'index.php';
+    $urlComponents = parse_url($referer);
+    $cleanUrl = $urlComponents['scheme'] . '://' . $urlComponents['host'];
+    if (isset($urlComponents['port'])) {
+        $cleanUrl .= ':' . $urlComponents['port'];
+    }
+    if (isset($urlComponents['path'])) {
+        $cleanUrl .= $urlComponents['path'];
+    }
+    header("Location: $cleanUrl");
     exit();
 } else {
-    // Get the referring URL
     $_SESSION['loginerror'] = true;
-    $_SESSION['authenticated'] = false;
-    $redirectUrl = $_SERVER['HTTP_REFERER'];
-    // Check if query string already contains login_error=incorrect_credentials
-    echo "<script>console.log('authenticated: " . $_SESSION['authenticated'] . "');</script>";
-    if (strpos($redirectUrl, '?login_error=incorrect_credentials') === false) {
-        // Append the error parameter
-        $redirectUrl .= (parse_url($redirectUrl, PHP_URL_QUERY) ? '&' : '?') . 'login_error=incorrect_credentials';
-    }
-
     $_SESSION['login_popup_visible'] = true;
-    // Redirect back to the referring page
-    if(isset($_SERVER['HTTP_REFERER'])){
-        header("Location: " . $redirectUrl);
-    } else {
-        header("Location: index.php");
-    }
+    
+    // Redirect back with error message, handle missing referer
+    $redirectUrl = $_SERVER['HTTP_REFERER'] ?? 'index.php';
+    $hasErrorParam = strpos($redirectUrl, '?login_error=incorrect_credentials') !== false;
+    $separator = strpos($redirectUrl, '?') !== false ? '&' : '?';
 
+    $redirectUrl = $hasErrorParam ? $redirectUrl : $redirectUrl . $separator . 'login_error=incorrect_credentials';
+    header("Location: $redirectUrl");
     exit();
 }
 ?>

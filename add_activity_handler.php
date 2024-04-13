@@ -2,7 +2,7 @@
 session_start();
 require_once 'Dao.php';
 
-// Retrieve form data
+//Retrieve form data
 $activityName = $_POST['activityName'];
 $activityType = $_POST['activityType'];
 $season = $_POST['season'];
@@ -11,15 +11,15 @@ $city = $_POST['city'];
 $state = $_POST['state'];
 $zip = $_POST['zip'];
 
-// These values may or may not be checked, default to false if not checked
+//Default to false if not checked
 $morning = isset($_POST['morning']) ? 1 : 0;
 $afternoon = isset($_POST['afternoon']) ? 1 : 0;
 $evening = isset($_POST['evening']) ? 1 : 0;
 
-// Array to store error messages
+//Array to store error messages
 $messages = array();
 
-// Perform validation
+//Perform validation
 if (empty($activityName)) {
     $messages[] = "Please enter an activity name.";
 }
@@ -36,19 +36,32 @@ if (empty($address)) {
     $messages[] = "Please enter an address.";
 }
 
+if (!empty($address)) {
+    //Basic validation to check for a plausible address format
+    if (!preg_match("/^\d+\s[A-Za-z]+\s[A-Za-z]+/", $address)) { //address starts with a digit (^\d), then a space (\s), then letters
+        $messages[] = "Please enter a valid address.";
+    }
+}
+
 if (empty($city)) {
-    $messages[] = "Please enter a city.";
+    $messages[] = "Please select a city.";
 }
 
 if (empty($state)) {
-    $messages[] = "Please enter a state.";
+    $messages[] = "Please select a state.";
 }
 
 if (empty($zip)) {
-    $messages[] = "Please enter a zip code.";
+    $messages[] = "Please enter a zipcode.";
 }
 
-// If there are validation errors, redirect back to the form with error messages
+if (!empty($zip)) {
+    if (!preg_match("/^\d{5}/", $zip)) { //zipcode has 5 digits
+        $messages[] = "Please enter a valid zipcode.";
+    }  
+}
+
+//If there are validation errors, redirect back to the form with error messages
 if (!empty($messages)) {
     $_SESSION['messages'] = $messages;
     $_SESSION['inputs'] = $_POST;
@@ -56,18 +69,29 @@ if (!empty($messages)) {
     exit();
 }
 
-// If validation passes, proceed with saving the activity
+//If validation passes, proceed with saving the activity
 $dao = new Dao();
-$success = $dao->saveActivity($activityName, $activityType, $morning, $afternoon, $evening, $season, $address, $city, $state, $zip);
+$result = $dao->saveActivity($activityName, $activityType, $morning, $afternoon, $evening, $season, $address, $city, $state, $zip);
 
-// Set success or error message
-if ($success) {
-    $_SESSION['messages'] = array("Your activity has been added.");
-} else {
-    $_SESSION['messages'] = array("Failed to save the activity.");
-}
+switch ($result) {
+    case 'success':
+        // $_SESSION['messages'] = ["Your activity '" . htmlspecialchars($activityName) . "' has been added."];
+        break;
+    case 'activity_exists':
+        $_SESSION['messages'] = ["The activity '" . htmlspecialchars($activityName) . "' already exists."];
+        break;
+    case 'login_required':
+        $_SESSION['messages'] = ["You must be logged in to add an activity."];
+        break;
+    case 'database_error':
+        $_SESSION['messages'] = ["There was a problem saving the activity. Please try again later."];
+        break;
+    default:
+        $_SESSION['messages'] = ["An unexpected error occurred."];
+        break;
+    }
 
-// Redirect back to the activities page
+//Redirect back to the activities page
 header("Location: activities.php");
 exit();
 ?>
