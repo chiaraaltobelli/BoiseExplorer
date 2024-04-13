@@ -2,7 +2,7 @@
     <div id="createAccount" class="close-btn">&times;</div>
     <div class="form">
         <h2>Create New Account</h2>
-        <form action="../Handlers/create_account_handler.php" method="post"> <!-- Added action attribute -->
+        <form action="create_account_handler.php" method="post"> <!-- Added action attribute -->
             <div class="form-element">
                 <label for="email">Email</label>
                 <input type="text" id="email" name="email" placeholder="Enter email"> <!-- Added name attribute -->

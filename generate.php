@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '../../Include/header.php';?>
+<?php require_once __DIR__ . '/header.php';?>
 <body class="page-container">
     <div class="content">
         <div class="generate-container">
@@ -17,7 +17,7 @@
             <h2>Explore Boise</h2>
             <?php
             // Include the DAO class
-            require_once __DIR__ . '../../Include/Dao.php';
+            require_once 'Dao.php';
 
             // Create a DAO instance
             $dao = new Dao();
@@ -42,4 +42,4 @@
         alert('You selected: ' + this.value); // Update later
     });
     </script>
-<?php require_once __DIR__ . '../../Include/footer.php';?>
+<?php require_once __DIR__ . '/footer.php';?>

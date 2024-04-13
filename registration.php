@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '../../Include/header.php'; ?>
+<?php require_once __DIR__ . '/header.php'; ?>
 <body class="page-container">
     <div class="content">
         <h1>Invalid Account Registration</h1>
@@ -17,4 +17,4 @@
         }
         ?>
     </div>
-<?php require_once __DIR__ . '../../Include/footer.php'; ?>
+<?php require_once __DIR__ . '/footer.php'; ?>

@@ -3,16 +3,6 @@
 require_once __DIR__ . '/header.php'; 
 ?>
 
-<head>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Boise Explorer</title>
-    <!-- Site styling -->
-    <link rel="stylesheet" href="../style.css">
-    <!-- Popup stying -->
-    <link rel="stylesheet" href="../popup.css">
-</head>
 <body class="page-container">
     <div class="content">
         <h1>Activities</h1>
@@ -22,12 +12,12 @@ require_once __DIR__ . '/header.php';
             <button id="addActivityBtn">Add Activity</button>
         <?php endif; ?>
         <!-- Include the addactivity popup -->
-        <?php require_once(BASE_PATH . '/src/include/Dao.php'); ?>
+        <?php require_once "add_activity.php"; ?>
 
         <!-- Categories -->
         <div class="content-activity">
         <?php
-        require_once __DIR__ . '../../Include/Dao.php';
+        require_once __DIR__ . '/Dao.php';
         $dao = new Dao();
         $userId = $_SESSION['userID'] ?? null;  //Use null if the user is not logged in
         $activityTypesWithActivities = $dao->getActivityTypesWithActivities($userId);

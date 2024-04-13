@@ -6,7 +6,7 @@ $email = $_POST['email'] ?? null;
 $password = $_POST['password'] ?? null;
 $_SESSION['email'] = $email;  // Consider security implications of storing email in session.
 
-require_once __DIR__ . '../../Include/Dao.php';
+require_once 'Dao.php';
 $dao = new Dao();
 $user = $dao->getUserByEmail($email);
 
