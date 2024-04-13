@@ -17,6 +17,7 @@ echo "<script>console.log('saved password: " . $user['UserPassword'] . "');</scr
 if ($user && $password === $user['UserPassword']) {
     // Set login popup visibility to false
     $_SESSION['login_popup_visible'] = false;
+    $_SESSION['loginerror'] = false;
     $_SESSION['authenticated'] = true;
     echo "<script>console.log('authenticated: " . $_SESSION['authenticated'] . "');</script>";
     // Stay on the same page after login if authenticated

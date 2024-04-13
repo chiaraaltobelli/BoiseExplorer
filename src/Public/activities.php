@@ -1,4 +1,20 @@
-<?php require_once __DIR__ . '../../Include/header.php'; ?>
+<?php 
+require_once __DIR__ . '/../../config.php';
+require_once(BASE_PATH . '/src/include/header.php');
+// if (file_exists($path)) {
+//     require_once $path;
+    
+//     // Check if BASE_PATH is defined
+//     if (defined('BASE_PATH')) {
+//         require_once(BASE_PATH . '/src/include/header.php');
+//     } else {
+//         die('BASE_PATH is not defined');
+//     }
+// } else {
+//     die("Could not find config.php at path: $path");
+// }
+?>
+
 <head>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <meta charset="UTF-8">
@@ -19,7 +35,7 @@
         <?php endif; ?>
         <p>When logged in, this page allows the user to add their own activities. Right now it shows all activities, eventually it will show only the default activities and the logged in user's custom activities.</p>
         <!-- Include the addactivity popup -->
-        <?php require_once __DIR__ . '../../Include/add_activity.php'; ?>
+        <?php require_once(BASE_PATH . '/src/include/Dao.php'); ?>
 
         <!-- Categories -->
         <div class="content-activity">
