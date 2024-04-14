@@ -25,6 +25,7 @@ $(document).ready(function() {
     // Fade in and out error messages and handle close interaction
     $(".error-messages").fadeIn(3000).delay(3000).fadeOut(3000);
 
+    //Manually close error message
     // $(document).on('click', '.close-error', function(event) {
     //     event.stopPropagation();  // Stop the event from bubbling up to parent elements
     //     $(this).closest('.error-messages').fadeOut(1000);  // Fade out the closest error message container

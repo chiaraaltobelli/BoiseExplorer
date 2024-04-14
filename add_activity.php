@@ -69,7 +69,7 @@ if (isset($_SESSION['messages']) && !empty($_SESSION['messages'])): ?>
 
         <!-- Address -->
         <div class="form-element">
-            <label for="address">Address</label>
+            <label for="address">Address<span class="required">*</span></label>
             <input type="text" id="address" name="address" placeholder="Address" required value="<?= htmlspecialchars($_SESSION['inputs']['address'] ?? '') ?>">
         </div>
 
@@ -95,7 +95,7 @@ if (isset($_SESSION['messages']) && !empty($_SESSION['messages'])): ?>
 
         <!-- Zip -->
         <div class="form-element">
-            <label for="zip">Zip</label>
+            <label for="zip">Zip<span class="required">*</span></label>
             <input type="number" id="zip" name="zip" placeholder="Zip" required value="<?= htmlspecialchars($_SESSION['inputs']['zip'] ?? '') ?>">
         </div>
 
