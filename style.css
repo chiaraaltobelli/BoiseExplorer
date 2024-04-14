@@ -103,6 +103,24 @@ html, body {
   z-index: 1000;
 }
 
+/* .success-messages {
+  color: rgb(4, 97, 32)24; 
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #b6e0b1; 
+  border-color: #c6f5ce; 
+  border-radius: 4px; 
+  padding: 30px 20px; 
+  margin: 10px 0; 
+  font-size: 14px; 
+  text-align: left; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+  width: auto; 
+  max-width: 90%; 
+  display: block;
+  position: relative; 
+  z-index: 1000;
+} */
+
 /*not yet in use*/
 .close-error {
   position: absolute;

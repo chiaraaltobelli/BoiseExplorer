@@ -1,5 +1,5 @@
 <?php require_once __DIR__ . '/header.php'; ?>
-<link rel="stylesheet" href="style.css">
+<!-- <link rel="stylesheet" href="style.css"> -->
 <body class="page-container">
     <div class="content">
       <h1>About</h1>

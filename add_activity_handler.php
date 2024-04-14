@@ -74,9 +74,9 @@ $dao = new Dao();
 $result = $dao->saveActivity($activityName, $activityType, $morning, $afternoon, $evening, $season, $address, $city, $state, $zip);
 
 switch ($result) {
-    case 'success':
-        // $_SESSION['messages'] = ["Your activity '" . htmlspecialchars($activityName) . "' has been added."];
-        break;
+    // case 'success':
+    //     $_SESSION['messages'] = ["Your activity '" . htmlspecialchars($activityName) . "' has been added."];
+    //     break;
     case 'activity_exists':
         $_SESSION['messages'] = ["The activity '" . htmlspecialchars($activityName) . "' already exists."];
         break;

@@ -9,16 +9,16 @@ use Psr\Log\LogLevel;
 
 class Dao {
     //Heroku:
-    private $host = "us-cluster-east-01.k8s.cleardb.net";
-    private $db = "heroku_19905b6cee32fd5";
-    private $user = "bd27d135b8e3a9";
-    private $pass = "d7142ae8";
+    // private $host = "us-cluster-east-01.k8s.cleardb.net";
+    // private $db = "heroku_19905b6cee32fd5";
+    // private $user = "bd27d135b8e3a9";
+    // private $pass = "d7142ae8";
 
     //WAMP
-    // private $host = "localhost";
-    // private $db = "boiseexplorer";
-    // private $user = "caltobelli";
-    // private $pass = "Ronin465$";
+    private $host = "localhost";
+    private $db = "boiseexplorer";
+    private $user = "caltobelli";
+    private $pass = "Ronin465$";
     private $logger;
 
     public function __construct() {
@@ -42,20 +42,23 @@ class Dao {
     
 
     public function saveActivity($activityName, $activityType, $morning, $afternoon, $evening, $season, $address, $city, $state, $zip) {
-        if (!isset($_SESSION['email'])) {
+        //Check if user is logged in
+        if (!isset($_SESSION['userID'])) {
             $this->logger->error("User is not logged in.");
-            return 'login_required';  // Or consider throwing an exception
+            return 'login_required'; 
         }
     
+        //Set userID and get connection
+        $userID = $_SESSION['userID']; 
         $conn = $this->getConnection();
         $this->checkConnection($conn);
-        $userId = $this->getUserID($conn, $_SESSION['email']);
     
         try {
-            $existingActivityId = $this->getActivityIdByName($conn, $activityName, $userId);
+            //Check if activity already exists
+            $existingActivityId = $this->getActivityIdByName($conn, $activityName, $userID);
             if ($existingActivityId) {
                 $this->logger->error("Activity '{$activityName}' already exists.");
-                return 'activity_exists';  // Specific code indicating activity already exists
+                return 'activity_exists'; 
             }
     
             // Continue with saving if the activity does not exist
@@ -67,7 +70,7 @@ class Dao {
             $activityTypeId = $this->getActivityTypeId($conn, $activityType);
     
             $saveQuery = "INSERT INTO Activity (ActivityName, Morning, Afternoon, Evening, SeasonID, ActivityTypeID, UserID, AddressID) 
-                          VALUES (:activityName, :morning, :afternoon, :evening, :seasonId, :activityTypeId, :userId, :addressId)";
+                          VALUES (:activityName, :morning, :afternoon, :evening, :seasonId, :activityTypeId, :userID, :addressId)";
             $stmt = $conn->prepare($saveQuery);
             $stmt->bindParam(':activityName', $activityName);
             $stmt->bindParam(':morning', $morning);
@@ -75,14 +78,14 @@ class Dao {
             $stmt->bindParam(':evening', $evening);
             $stmt->bindParam(':seasonId', $seasonId);
             $stmt->bindParam(':activityTypeId', $activityTypeId);
-            $stmt->bindParam(':userId', $userId);
+            $stmt->bindParam(':userID', $userID);
             $stmt->bindParam(':addressId', $addressId);
             $stmt->execute();
     
             return 'success';
         } catch (PDOException $e) {
             $this->logger->error("Error saving activity: " . $e->getMessage());
-            return 'database_error';  // Or consider throwing an exception
+            return 'database_error';
         }
     }
     
@@ -265,7 +268,9 @@ class Dao {
         }
     }  
 
-    public function getActivityTypesWithActivities($userId = null) {
+    public function getActivityTypesWithActivities() {
+        $userID = $_SESSION['userID'] ?? null; //check if user is logged in
+
         $conn = $this->getConnection();
         if (!$conn) {
             return [];
@@ -274,17 +279,17 @@ class Dao {
         $sql = "SELECT t.ActivityType, a.ActivityName 
                 FROM ActivityType t 
                 JOIN Activity a ON t.ActivityTypeID = a.ActivityTypeID 
-                WHERE a.UserID = 1";  // Default activities
+                WHERE a.UserID = 1";  //Default activities
     
-        if ($userId) {
-            $sql .= " OR a.UserID = :userId";  // Add user-specific activities
+        if ($userID) {
+            $sql .= " OR a.UserID = :userID";  //Add user-specific activities
         }
     
         $sql .= " ORDER BY t.ActivityType, a.ActivityName";
         $stmt = $conn->prepare($sql);
     
-        if ($userId) {
-            $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        if ($userID) {
+            $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
         }
     
         $stmt->execute();
@@ -333,15 +338,28 @@ class Dao {
     public function getUserByEmail($email) {
         try {
             $conn = $this->getConnection();
-            $stmt = $conn->prepare("SELECT * FROM UserAccount WHERE UserEmail = :email");
+            $stmt = $conn->prepare("SELECT UserID, UserPassword FROM UserAccount WHERE UserEmail = :email");
             $stmt->bindParam(':email', $email);
             $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            // Fetch result
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            // Check if result is found and log the UserID (Be cautious with what you log in production environments!)
+            if ($result) {
+                $this->logger->error("Fetched user with UserID: " . $result['UserID']);
+            } else {
+                $this->logger->error("No user found with email: " . $email);
+            }
+            
+            return $result;
         } catch (PDOException $e) {
             $this->logger->error("Error retrieving user by email: " . $e->getMessage());
             return null;
         }
     }
+    
+    
 
     public function getActivitiesByTimeOfDay() {
         $conn = $this->getConnection();

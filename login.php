@@ -7,7 +7,10 @@
         //Display error message for incorrect username or password
         if (isset($_GET['login_error']) && $_GET['login_error'] == 'incorrect_credentials'): ?>
             <p class='error-messages'>Incorrect username or password.</p>
-        <?php endif; ?>
+        <?php 
+            unset($_SESSION['messages']); // Clear messages after displaying    
+        endif; 
+        ?>
         <!-- Form -->
         <form method="post" action="login_handler.php" id="loginForm">
             <div class="form-element">
