@@ -13,13 +13,12 @@ $states = $dao->getStates();
 if (isset($_SESSION['messages']) && !empty($_SESSION['messages'])): ?>
     <div class="error-messages" role="alert">
         <?php foreach ($_SESSION['messages'] as $message): ?>
-            <p class="loginerror"><?= htmlspecialchars($message); ?></p>
+            <p><?= htmlspecialchars($message); ?></p>
         <?php endforeach; ?>
     </div>
     <?php
         unset($_SESSION['messages']); // Clear messages after displaying
     endif;
-
 ?>
 
 <div id="addActivity" class="popup">
