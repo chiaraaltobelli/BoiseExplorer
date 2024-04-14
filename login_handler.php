@@ -35,8 +35,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Redirect back to the login page or origin page with error message
         $redirectUrl = $_SERVER['HTTP_REFERER'] ?? 'index.php';
         $queryString = parse_url($redirectUrl, PHP_URL_QUERY);
-        $separator = ($queryString) ? '&' : '?';
-        $redirectUrl .= $separator . 'login_error=incorrect_credentials';
+
+        // Check if 'login_error' already exists in the query string
+        if ($queryString && strpos($queryString, 'login_error=incorrect_credentials') === false) {
+            // If query string exists and 'incorrect_credentials' is not already in it, append it
+            $separator = '&';
+        } elseif (!$queryString) {
+            // If there is no existing query string, start a new one
+            $separator = '?';
+        } else {
+            // 'incorrect_credentials' is already in the query string, no need to append again
+            $separator = '';
+        }
+
+        // Append 'incorrect_credentials' if needed
+        if ($separator) {
+            $redirectUrl .= $separator . 'login_error=incorrect_credentials';
+        }
         
         header("Location: $redirectUrl");
         exit();
