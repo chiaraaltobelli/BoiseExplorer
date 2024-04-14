@@ -363,7 +363,9 @@ class Dao {
     
 
     public function getActivitiesByTimeOfDay() {
-        $userID = $_SESSION['userID'] ?? null; //check if user is logged in
+        $userID = $_SESSION['userID'] ?? null; // Check if user is logged in
+        $this->logger->error("User ID: " . ($userID ?? "Not logged in")); // Log the userID
+        
         $conn = $this->getConnection();
     
         if (!$conn) {
@@ -371,25 +373,25 @@ class Dao {
         }
     
         try {
-            // //Fetch activities grouped by time of day
+            // Fetch activities grouped by time of day
             $sql = "SELECT ActivityName, Morning, Afternoon, Evening
                     FROM Activity
-                    WHERE UserID = 1 ";//get default activities
+                    WHERE UserID = 1 "; // Get default activities
     
-            if($userID) {
-                $sql .= "OR UserID = :userID"; //get user added activities
+            if ($userID) {
+                $sql .= "OR UserID = :userID"; // Get user added activities
             }
-
+    
             $stmt = $conn->prepare($sql);
-
-            if($userID) {
+    
+            if ($userID) {
                 $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
             }
-
+    
             $stmt->execute();
             $results = $stmt->fetchAll(PDO:: FETCH_ASSOC);
     
-            //Change to create this programatically
+            // Initialize an array to store activities grouped by time of day
             $activitiesByTimeOfDay = [
                 "Morning" => [],
                 "Afternoon" => [],
@@ -413,7 +415,7 @@ class Dao {
             $this->logger->error("Error fetching activities by time of day: " . $e->getMessage());
             return [];
         }
-    }
+    }    
 
     public function getRandomActivitiesByTimeOfDay($numPerTimeOfDay = 1) {
         // Fetch all activities organized by time of day

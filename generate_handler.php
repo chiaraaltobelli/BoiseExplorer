@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/Dao.php'; 
 
 $type = $_POST['type'] ?? 'single';  // Default to single if type is not specified
