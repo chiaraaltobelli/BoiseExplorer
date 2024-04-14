@@ -2,29 +2,29 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/lib/Logger.php';
-require_once __DIR__ . '/database.php';
+// require_once __DIR__ . '/database.php';
 
 use Katzgrau\KLogger\Logger;
 use Psr\Log\LogLevel;
 
 class Dao {
     //Database credentials
-    private $host;
-    private $db;
-    private $user;
-    private $pass;
+    private $host = 'us-cluster-east-01.k8s.cleardb.net';
+    private $db = 'heroku_19905b6cee32fd5';
+    private $user = 'bd27d135b8e3a9';
+    private $pass = 'd7142ae8';
 
     private $logger;
 
     //Constructor to initialize class properties
     public function __construct() {
         $this->logger = new Logger("log.txt", LogLevel::WARNING);
-        global $db_credentials; // Make $db_credentials accessible within the class
+        // global $db_credentials; // Make $db_credentials accessible within the class
         //Assign database credentials to class properties
-        $this->host = $db_credentials['host'];
-        $this->db   = $db_credentials['db'];
-        $this->user = $db_credentials['user'];
-        $this->pass = $db_credentials['pass'];
+        // $this->host = $db_credentials['host'];
+        // $this->db   = $db_credentials['db'];
+        // $this->user = $db_credentials['user'];
+        // $this->pass = $db_credentials['pass'];
     }
 
     public function getLogger() {
