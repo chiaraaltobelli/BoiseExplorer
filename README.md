@@ -1,7 +1,7 @@
-# BoiseExplorer
+# Boise Explorer
 
 ## Overview
-Welcome to Boise Adventure Generator, your ultimate guide to unlocking the best of Boise, Idaho, without the hassle of planning. Our platform transforms how residents and visitors explore the vibrant city.
+Welcome to the Boise Explorer, your ultimate guide to unlocking the best of Boise, Idaho, without the hassle of planning. Our platform transforms how residents and visitors explore the vibrant city.
 
 ## Our Mission
 At Boise Adventure Generator, we believe that choosing how to spend your free time should be exciting, not overwhelming. We rescue your weekends from indecision, offering personalized adventures with just a few clicks.
@@ -38,7 +38,7 @@ Boise Adventure Generator is your magic 8-ball for social life. Here's how we ma
 - Submit feedback or report issues via the contact form on the site.
 
 ## Contributors
-- [Chiara Altobelli] - Project Lead & Developer
+- Chiara Altobelli - Project Lead & Developer
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
