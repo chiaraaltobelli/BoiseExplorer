@@ -13,9 +13,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($messages)) {
         $dao = new Dao();
-        try {
-            $conn = $dao->getConnection();
-            $stmt = $conn->prepare("INSERT INTO Subscriber (SubscriberEmail) VALUES (?)");
+        $conn = $dao->getConnection();
+        //Check if user is already subscribed
+        $stmt = $conn->prepare("SELECT SubscriberEmail FROM Subscriber WHERE SubscriberEmail = ?");
+        $stmt->execute([$subscriberEmail]);
+        $existingSubscriber = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($existingSubscriber) {
+            $messages[] = "This email is already subscibed.";
+            $_SESSION['messages'] = $messages;
+            header("Location: index.php");
+            exit();
+        }
+        
+        try{
+            $stmt = $conn->prepare("INSERT into Subscriber (SubscriberEmail) VALUES (?)");
             $stmt->execute([$subscriberEmail]);
             header("Location: index.php?subscribe=success");
             exit();

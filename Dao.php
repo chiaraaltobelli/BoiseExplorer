@@ -363,6 +363,7 @@ class Dao {
     
 
     public function getActivitiesByTimeOfDay() {
+        $userID = $_SESSION['userID'] ?? null; //check if user is logged in
         $conn = $this->getConnection();
     
         if (!$conn) {
@@ -370,10 +371,25 @@ class Dao {
         }
     
         try {
-            //Fetch activities grouped by time of day
-            $stmt = $conn->query("SELECT ActivityName, Morning, Afternoon, Evening FROM Activity");
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // //Fetch activities grouped by time of day
+            $sql = "SELECT ActivityName, Morning, Afternoon, Evening
+                    FROM Activity
+                    WHERE UserID = 1 ";//get default activities
     
+            if($userID) {
+                $sql .= "OR UserID = :userID"; //get user added activities
+            }
+
+            $stmt = $conn->prepare($sql);
+
+            if($userID) {
+                $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
+            }
+
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO:: FETCH_ASSOC);
+    
+            //Change to create this programatically
             $activitiesByTimeOfDay = [
                 "Morning" => [],
                 "Afternoon" => [],
@@ -381,14 +397,13 @@ class Dao {
             ];
     
             foreach ($results as $activity) {
-                //Check Morning, Afternoon, and Evening values and categorize the activity accordingly
-                if ($activity['Morning'] == 1) {
+                if ($activity['Morning']) {
                     $activitiesByTimeOfDay["Morning"][] = $activity['ActivityName'];
                 }
-                if ($activity['Afternoon'] == 1) {
+                if ($activity['Afternoon']) {
                     $activitiesByTimeOfDay["Afternoon"][] = $activity['ActivityName'];
                 }
-                if ($activity['Evening'] == 1) {
+                if ($activity['Evening']) {
                     $activitiesByTimeOfDay["Evening"][] = $activity['ActivityName'];
                 }
             }
@@ -399,6 +414,44 @@ class Dao {
             return [];
         }
     }
-       
+
+    public function getRandomActivitiesByTimeOfDay($numPerTimeOfDay = 1) {
+        // Fetch all activities organized by time of day
+        $allActivities = $this->getActivitiesByTimeOfDay();
+        
+        // Array to store randomly selected activities
+        $randomActivitiesByTimeOfDay = [
+            "Morning" => [],
+            "Afternoon" => [],
+            "Evening" => []
+        ];
+    
+        // Temporary storage to keep track of selected activities
+        $selectedActivities = [];
+    
+        // Iterate through each time of day and select random activities
+        foreach (['Morning', 'Afternoon', 'Evening'] as $timeOfDay) {
+            $possibleActivities = array_diff($allActivities[$timeOfDay], $selectedActivities); // Exclude already selected activities
+    
+            if (count($possibleActivities) > 0) {
+                // Shuffle the array to randomize and then pick the first $numPerTimeOfDay elements
+                shuffle($possibleActivities);
+                $selected = array_slice($possibleActivities, 0, $numPerTimeOfDay);
+                $randomActivitiesByTimeOfDay[$timeOfDay] = $selected;
+                $selectedActivities = array_merge($selectedActivities, $selected); //Add to selected to avoid repetition
+            }
+        }
+    
+        return $randomActivitiesByTimeOfDay;
+    }    
+
+    public function getRandomActivity() {
+        $conn = $this->getConnection();
+        $sql = "SELECT ActivityName FROM Activity ORDER BY RAND() LIMIT 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $activity = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $activity;
+    }
 }
 ?>

@@ -12,7 +12,7 @@ require_once __DIR__ . '/Dao.php';
             <!-- <p>Logged in as UserID: <?= htmlspecialchars($_SESSION['userID'] ?? 'Not set'); ?></p> -->
             <button id="addActivityBtn">Add Activity</button>
         <?php else: ?>
-            <p>User not logged in or UserID not set.</p>
+            <!-- <p>User not logged in or UserID not set.</p> -->
         <?php endif; ?>
         <!-- Include the addactivity popup -->
         <?php require_once "add_activity.php"; ?>
@@ -30,7 +30,7 @@ require_once __DIR__ . '/Dao.php';
             echo "<h3>{$activityType}</h3>";
             echo "<ul class='activity-list'>";
             foreach ($activities as $activity) {
-                echo "<li>{$activity}</li>"; // Wrap each activity in <li> tags
+                echo "<li>{$activity}</li>";
             }
             echo "</ul>";
             echo "</div>";

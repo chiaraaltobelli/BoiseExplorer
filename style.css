@@ -103,7 +103,7 @@ html, body {
   z-index: 1000;
 }
 
-/* .success-messages {
+.success-messages {
   color: rgb(4, 97, 32)24; 
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #b6e0b1; 
@@ -119,7 +119,7 @@ html, body {
   display: block;
   position: relative; 
   z-index: 1000;
-} */
+}
 
 /*not yet in use*/
 .close-error {
@@ -184,6 +184,10 @@ html, body {
 
 .activity-type {
   margin-right: 70px;
+}
+
+#activities-container {
+  text-align: center;
 }
 
 .activity-list {

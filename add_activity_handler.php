@@ -64,7 +64,7 @@ if (!empty($zip)) {
 //If there are validation errors, redirect back to the form with error messages
 if (!empty($messages)) {
     $_SESSION['messages'] = $messages;
-    $_SESSION['inputs'] = $_POST;
+    $_SESSION['inputs'] = $_POST; //store data from the form
     header("Location: activities.php");
     exit();
 }
@@ -74,9 +74,9 @@ $dao = new Dao();
 $result = $dao->saveActivity($activityName, $activityType, $morning, $afternoon, $evening, $season, $address, $city, $state, $zip);
 
 switch ($result) {
-    // case 'success':
+    case 'success':
     //     $_SESSION['messages'] = ["Your activity '" . htmlspecialchars($activityName) . "' has been added."];
-    //     break;
+        break;
     case 'activity_exists':
         $_SESSION['messages'] = ["The activity '" . htmlspecialchars($activityName) . "' already exists."];
         break;
