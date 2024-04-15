@@ -1,7 +1,7 @@
 /*Popup Styles*/
 .popup {
     position: absolute;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     top: -150%;
     left: 50%;
     opacity: 0;

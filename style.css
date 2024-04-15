@@ -11,7 +11,7 @@ html, body {
 
 /*Header Styles*/
 .site-header {
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family:'Open Sans', sans-serif;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -87,7 +87,7 @@ html, body {
 
 .error-messages {
   color: #721c24; 
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   background-color: #f8d7da; 
   border-color: #f5c6cb; 
   border-radius: 4px; 
@@ -105,7 +105,7 @@ html, body {
 
 .success-messages {
   color: rgb(4, 97, 32)24; 
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family:'Open Sans', sans-serif;
   background-color: #b6e0b1; 
   border-color: #c6f5ce; 
   border-radius: 4px; 
@@ -147,7 +147,7 @@ html, body {
 /*Page Content Styles*/
 .content {
   box-sizing: border-box;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family:'Open Sans', sans-serif;
   font-size: 16px;
   padding: 1% 2%;
   margin: 1% 5%;
@@ -203,7 +203,7 @@ html, body {
   justify-content: space-between;
   flex-wrap: wrap;
   box-sizing: border-box;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family:'Open Sans', sans-serif;
   font-size: 0.75em;
   color: #000000;
   border-top: 1px solid #b6b5b5;
@@ -264,7 +264,7 @@ h3 {
 }
 
 select {
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family:'Open Sans', sans-serif;
   padding: 10px;
   margin-top: 5px;
   border-radius: 5px;

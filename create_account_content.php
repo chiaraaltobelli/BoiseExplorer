@@ -26,7 +26,7 @@
     </div>
 </div>
 
-
+<!-- Move to JavaScript file -->
 <script>
     // Function to show the popup when the document is ready
     document.addEventListener("DOMContentLoaded", function() {

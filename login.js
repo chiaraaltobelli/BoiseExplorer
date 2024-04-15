@@ -1,3 +1,4 @@
+//Add loging to load when page is ready
 document.addEventListener("DOMContentLoaded", function() {
     var showLoginBtn = document.getElementById("showLoginBtn");
     if (showLoginBtn) {

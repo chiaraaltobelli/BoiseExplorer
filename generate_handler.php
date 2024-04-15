@@ -27,5 +27,4 @@ if ($type === 'fullday') {
     // $activities = array_fill_keys(['Morning', 'Afternoon', 'Evening'], [$activities['ActivityName']]);
 }
 
-
 exit;

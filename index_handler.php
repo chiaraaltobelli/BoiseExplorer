@@ -5,7 +5,7 @@ require_once 'Dao.php';
 $messages = array();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $subscriberEmail = $_POST['subscriberEmail'] ?? '';
+    $subscriberEmail = $_POST['subscriberEmail'] ?? ''; //Update to sanitize first
 
     if (empty($subscriberEmail) || !filter_var($subscriberEmail, FILTER_VALIDATE_EMAIL)) {
         $messages[] = "Invalid email format.";
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
         
-        try{
+        try{ //move to Dao.php
             $stmt = $conn->prepare("INSERT into Subscriber (SubscriberEmail) VALUES (?)");
             $stmt->execute([$subscriberEmail]);
             header("Location: index.php?subscribe=success");

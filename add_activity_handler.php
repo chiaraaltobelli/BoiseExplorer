@@ -2,14 +2,33 @@
 session_start();
 require_once 'Dao.php';
 
-//Retrieve form data
-$activityName = $_POST['activityName'];
-$activityType = $_POST['activityType'];
-$season = $_POST['season'];
-$address = $_POST['address'];
-$city = $_POST['city'];
-$state = $_POST['state'];
-$zip = $_POST['zip'];
+//Function to sanitize input
+//https://www.php.net/manual/en/function.filter-var.php - documentation on filter_var
+function sanitizeInput($data, $type = 'string') {
+    $data = trim($data);
+    $data = stripslashes($data);
+    switch ($type) {
+        case 'email':
+            $data = filter_var($data, FILTER_SANITIZE_EMAIL);
+            break;
+        case 'integer':
+            $data = filter_var($data, FILTER_SANITIZE_NUMBER_INT);
+            break;
+        default:
+            $data = filter_var($data, FILTER_SANITIZE_STRING);
+            break;
+    }
+    return $data;
+}
+
+//Retrieve and sanitize form data
+$activityName = sanitizeInput($_POST['activityName']);
+$activityType = sanitizeInput($_POST['activityType']);
+$season = sanitizeInput($_POST['season']);
+$address = sanitizeInput($_POST['address']);
+$city = sanitizeInput($_POST['city']);
+$state = sanitizeInput($_POST['state']);
+$zip = sanitizeInput($_POST['zip'], 'integer'); //Assume zip is an integer
 
 //Default to false if not checked
 $morning = isset($_POST['morning']) ? 1 : 0;
@@ -19,7 +38,7 @@ $evening = isset($_POST['evening']) ? 1 : 0;
 //Array to store error messages
 $messages = array();
 
-//Perform validation
+//Validate inputs
 if (empty($activityName)) {
     $messages[] = "Please enter an activity name.";
 }
@@ -34,13 +53,8 @@ if (empty($season)) {
 
 if (empty($address)) {
     $messages[] = "Please enter an address.";
-}
-
-if (!empty($address)) {
-    // Updated regex to include numbers, letters, and common abbreviations for street types
-    if (!preg_match("/^\d+\s+[A-Za-z0-9]+\s+[A-Za-z0-9]+(?:\s[A-Za-z\.]+)*$/", $address)) {
+} elseif (!preg_match("/^\d+\s+[A-Za-z0-9]+\s+[A-Za-z0-9]+(?:\s[A-Za-z\.]+)*$/", $address)) { //digits-space-letters/digits-space-letters/ioptional St./Rd./Ave. etc.
         $messages[] = "Please enter a valid address format.";
-    }
 }
 
 if (empty($city)) {
@@ -75,7 +89,7 @@ $result = $dao->saveActivity($activityName, $activityType, $morning, $afternoon,
 
 switch ($result) {
     case 'success':
-    //     $_SESSION['messages'] = ["Your activity '" . htmlspecialchars($activityName) . "' has been added."];
+    //    $_SESSION['messages'] = ["Your activity '" . htmlspecialchars($activityName) . "' has been added."];
         break;
     case 'activity_exists':
         $_SESSION['messages'] = ["The activity '" . htmlspecialchars($activityName) . "' already exists."];
